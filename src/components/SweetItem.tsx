@@ -1,7 +1,7 @@
 "use client";
 
 import { Sweet, categories } from "@/data/sweets";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface SweetItemProps {
   sweet: Sweet;
@@ -12,11 +12,44 @@ interface SweetItemProps {
 export default function SweetItem({ sweet, quantity, onQuantityChange }: SweetItemProps) {
   const [showBulkInput, setShowBulkInput] = useState(false);
   const [bulkValue, setBulkValue] = useState(quantity.toString());
+  const [addClickCount, setAddClickCount] = useState(0);
+  const [showTip, setShowTip] = useState(false);
   const longPressTimer = useRef<NodeJS.Timeout | null>(null);
+  const tipTimer = useRef<NodeJS.Timeout | null>(null);
   const [isLongPressing, setIsLongPressing] = useState(false);
+
+  // Hide tip after 4 seconds when it appears
+  useEffect(() => {
+    if (showTip) {
+      tipTimer.current = setTimeout(() => {
+        setShowTip(false);
+      }, 4000);
+    }
+    return () => {
+      if (tipTimer.current) {
+        clearTimeout(tipTimer.current);
+      }
+    };
+  }, [showTip]);
+
+  // Reset click count when quantity reaches 0
+  useEffect(() => {
+    if (quantity === 0) {
+      setAddClickCount(0);
+      setShowTip(false);
+    }
+  }, [quantity]);
 
   const handleIncrease = () => {
     onQuantityChange(sweet.id, quantity + 1);
+
+    // Count clicks and show tip after 5 clicks
+    const newClickCount = addClickCount + 1;
+    setAddClickCount(newClickCount);
+
+    if (newClickCount >= 5 && !showTip) {
+      setShowTip(true);
+    }
   };
 
   const handleDecrease = () => {
@@ -154,8 +187,10 @@ export default function SweetItem({ sweet, quantity, onQuantityChange }: SweetIt
           </div>
         </div>
 
-        {quantity >= 10 && (
-          <div className="text-xs text-gray-500 text-center">💡 Clique na quantidade para editar rapidamente</div>
+        {showTip && (
+          <div className="text-xs text-gray-500 text-center animate-fadeIn">
+            💡 Clique na quantidade para editar rapidamente
+          </div>
         )}
       </div>
     </div>
