@@ -5,19 +5,67 @@ import QuoteSummary from "@/components/QuoteSummary";
 import SearchBar from "@/components/SearchBar";
 import SweetItem from "@/components/SweetItem";
 import { categories, sweets } from "@/data/sweets";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+
+const STORAGE_KEY = "lorena-felicio-order";
 
 export default function Home() {
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [isLoaded, setIsLoaded] = useState(false);
   const quoteSummaryRef = useRef<HTMLDivElement>(null);
+
+  // Load quantities from localStorage on component mount
+  useEffect(() => {
+    try {
+      const savedOrder = localStorage.getItem(STORAGE_KEY);
+      if (savedOrder) {
+        const parsedOrder = JSON.parse(savedOrder);
+        if (parsedOrder && typeof parsedOrder === "object") {
+          setQuantities(parsedOrder);
+        }
+      }
+    } catch (error) {
+      console.warn("Erro ao carregar pedido salvo:", error);
+    } finally {
+      setIsLoaded(true);
+    }
+  }, []);
+
+  // Save quantities to localStorage whenever they change
+  useEffect(() => {
+    if (!isLoaded) return; // Don't save during initial load
+
+    try {
+      // Only save non-empty orders to avoid storing empty objects
+      const hasItems = Object.values(quantities).some((qty) => qty > 0);
+      if (hasItems) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(quantities));
+      } else {
+        // Clear localStorage if no items are selected
+        localStorage.removeItem(STORAGE_KEY);
+      }
+    } catch (error) {
+      console.warn("Erro ao salvar pedido:", error);
+    }
+  }, [quantities, isLoaded]);
 
   const handleQuantityChange = (id: string, quantity: number) => {
     setQuantities((prev) => ({
       ...prev,
       [id]: quantity,
     }));
+  };
+
+  // Clear entire order
+  const handleClearOrder = () => {
+    setQuantities({});
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (error) {
+      console.warn("Erro ao limpar pedido:", error);
+    }
   };
 
   // Filter sweets based on search term and category
@@ -60,6 +108,18 @@ export default function Home() {
   const categoryKeys = Object.keys(groupedSweets);
   const showGrouped = selectedCategory === "" && searchTerm === "";
 
+  // Show loading state during hydration to prevent layout shift
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-beige-50 to-primary-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Carregando...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-beige-50 to-primary-50">
       <div className="container mx-auto px-4 py-6 md:py-8 max-w-6xl">
@@ -72,9 +132,31 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           <div className="lg:col-span-2">
             <div className="mb-4 md:mb-6">
-              <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-2 md:mb-4">Nossos Doces</h2>
+              <div className="flex items-center justify-between mb-2 md:mb-4">
+                <h2 className="text-xl md:text-2xl font-bold text-gray-800">Nossos Doces</h2>
+                {selectedItems.length > 0 && (
+                  <button
+                    onClick={handleClearOrder}
+                    className="text-sm text-gray-500 hover:text-red-500 transition-colors duration-200 flex items-center space-x-1"
+                    title="Limpar pedido"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1-1H8a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
+                    <span>Limpar pedido</span>
+                  </button>
+                )}
+              </div>
               <p className="text-sm md:text-base text-gray-600 mb-4 md:mb-6">
                 Selecione a quantidade desejada de cada doce para gerar seu orçamento
+                {selectedItems.length > 0 && (
+                  <span className="block mt-1 text-xs text-green-600 font-medium">✓ Pedido salvo automaticamente</span>
+                )}
               </p>
 
               <SearchBar
