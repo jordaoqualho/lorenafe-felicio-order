@@ -6,180 +6,85 @@ export interface Sweet {
 }
 
 export const categories: Record<string, string> = {
-  brigadeiros: "Brigadeiros & Trufas",
-  tradicionais: "Doces Tradicionais",
-  bolos: "Bolos & Cupcakes",
-  tortas: "Tortas & Sobremesas",
+  brigadeiros_tradicionais: "Brigadeiros Tradicionais",
+  brigadeiros_luxo: "Brigadeiros Luxo",
+  doces_finos_luxo: "Doces Finos - Luxo",
+  trufas_bombons: "Trufas e Bombons",
+  doces_finos_decorativos: "Doces Finos Decorativos",
+  copinhos: "Copinhos",
+  lembrancas: "Lembranças",
 };
 
 export const sweets: Sweet[] = [
-  // Brigadeiros & Trufas
-  {
-    id: "1",
-    name: "Brigadeiro",
-    price: 3.5,
-    category: "brigadeiros",
-  },
-  {
-    id: "2",
-    name: "Beijinho",
-    price: 3.5,
-    category: "brigadeiros",
-  },
-  {
-    id: "3",
-    name: "Casadinho",
-    price: 4.0,
-    category: "brigadeiros",
-  },
-  {
-    id: "4",
-    name: "Trufa de Chocolate",
-    price: 5.0,
-    category: "brigadeiros",
-  },
-  {
-    id: "5",
-    name: "Trufa de Morango",
-    price: 5.5,
-    category: "brigadeiros",
-  },
-  {
-    id: "6",
-    name: "Trufa de Maracujá",
-    price: 5.5,
-    category: "brigadeiros",
-  },
-  {
-    id: "7",
-    name: "Brigadeiro Gourmet",
-    price: 4.5,
-    category: "brigadeiros",
-  },
+  // Brigadeiros Tradicionais
+  { id: "1", name: "Beijinho", price: 3.0, category: "brigadeiros_tradicionais" },
+  { id: "2", name: "Brigadeiro", price: 3.2, category: "brigadeiros_tradicionais" },
+  { id: "3", name: "Bicho de pé", price: 3.5, category: "brigadeiros_tradicionais" },
+  { id: "4", name: "Café", price: 3.2, category: "brigadeiros_tradicionais" },
+  { id: "5", name: "Cajuzinho", price: 3.0, category: "brigadeiros_tradicionais" },
+  { id: "6", name: "Casadinho", price: 3.0, category: "brigadeiros_tradicionais" },
+  { id: "7", name: "Churros", price: 3.0, category: "brigadeiros_tradicionais" },
+  { id: "8", name: "Coco queimado", price: 3.0, category: "brigadeiros_tradicionais" },
+  { id: "9", name: "Flor de Beijinho", price: 3.5, category: "brigadeiros_tradicionais" },
+  { id: "10", name: "Flor napolitana", price: 3.5, category: "brigadeiros_tradicionais" },
+  { id: "11", name: "Ninho", price: 3.0, category: "brigadeiros_tradicionais" },
 
-  // Doces Tradicionais
-  {
-    id: "8",
-    name: "Olho de Sogra",
-    price: 4.5,
-    category: "tradicionais",
-  },
-  {
-    id: "9",
-    name: "Bem Casado",
-    price: 6.0,
-    category: "tradicionais",
-  },
-  {
-    id: "10",
-    name: "Cajuzinho",
-    price: 3.8,
-    category: "tradicionais",
-  },
-  {
-    id: "11",
-    name: "Quindim",
-    price: 7.0,
-    category: "tradicionais",
-  },
-  {
-    id: "12",
-    name: "Cocada",
-    price: 4.2,
-    category: "tradicionais",
-  },
-  {
-    id: "13",
-    name: "Doce de Leite",
-    price: 4.8,
-    category: "tradicionais",
-  },
-  {
-    id: "14",
-    name: "Paçoca",
-    price: 3.2,
-    category: "tradicionais",
-  },
-  {
-    id: "15",
-    name: "Pé de Moleque",
-    price: 3.8,
-    category: "tradicionais",
-  },
+  // Brigadeiros Luxo
+  { id: "12", name: "Belga", price: 4.2, category: "brigadeiros_luxo" },
+  { id: "13", name: "Belga Amargo", price: 4.2, category: "brigadeiros_luxo" },
+  { id: "14", name: "Brigadeiro Trufado", price: 4.2, category: "brigadeiros_luxo" },
+  { id: "15", name: "Brulee", price: 3.5, category: "brigadeiros_luxo" },
+  { id: "16", name: "Ferrero", price: 4.2, category: "brigadeiros_luxo" },
+  { id: "17", name: "Kinder Bueno", price: 4.2, category: "brigadeiros_luxo" },
+  { id: "18", name: "Limão Siciliano e Coco", price: 3.5, category: "brigadeiros_luxo" },
+  { id: "19", name: "Ninho com Nutella", price: 4.2, category: "brigadeiros_luxo" },
+  { id: "20", name: "Olho de Sogra", price: 3.5, category: "brigadeiros_luxo" },
+  { id: "21", name: "Pistache", price: 4.5, category: "brigadeiros_luxo" },
+  { id: "22", name: "Romeu e Julieta", price: 4.2, category: "brigadeiros_luxo" },
 
-  // Bolos & Cupcakes
-  {
-    id: "16",
-    name: "Brownie",
-    price: 8.5,
-    category: "bolos",
-  },
-  {
-    id: "17",
-    name: "Cupcake de Chocolate",
-    price: 9.0,
-    category: "bolos",
-  },
-  {
-    id: "18",
-    name: "Cupcake de Baunilha",
-    price: 8.5,
-    category: "bolos",
-  },
-  {
-    id: "19",
-    name: "Cupcake Red Velvet",
-    price: 10.0,
-    category: "bolos",
-  },
-  {
-    id: "20",
-    name: "Mini Bolo de Cenoura",
-    price: 7.5,
-    category: "bolos",
-  },
-  {
-    id: "21",
-    name: "Mini Bolo de Chocolate",
-    price: 8.0,
-    category: "bolos",
-  },
+  // Doces Finos - Luxo
+  { id: "23", name: "Brigadeiro crocante dourado", price: 4.5, category: "doces_finos_luxo" },
+  { id: "24", name: "Cereja", price: 4.5, category: "doces_finos_luxo" },
+  { id: "25", name: "Coco", price: 4.2, category: "doces_finos_luxo" },
+  { id: "26", name: "Diamante de Ovomaltine", price: 4.8, category: "doces_finos_luxo" },
+  { id: "27", name: "Morango", price: 6.8, category: "doces_finos_luxo" },
+  { id: "28", name: "Morango aberto", price: 6.8, category: "doces_finos_luxo" },
+  { id: "29", name: "Nozes", price: 5.2, category: "doces_finos_luxo" },
+  { id: "30", name: "Uva", price: 4.5, category: "doces_finos_luxo" },
+  { id: "31", name: "Uva c/ sucrilhos", price: 4.5, category: "doces_finos_luxo" },
+  { id: "32", name: "Uva s/ chocolate", price: 4.3, category: "doces_finos_luxo" },
+  { id: "33", name: "Caramelo salgado c/ pistache crocante", price: 5.0, category: "doces_finos_luxo" },
+  { id: "34", name: "Coxinha de Morango", price: 6.8, category: "doces_finos_luxo" },
 
-  // Tortas & Sobremesas
-  {
-    id: "22",
-    name: "Torta de Limão",
-    price: 12.0,
-    category: "tortas",
-  },
-  {
-    id: "23",
-    name: "Torta de Chocolate",
-    price: 14.0,
-    category: "tortas",
-  },
-  {
-    id: "24",
-    name: "Mousse de Maracujá",
-    price: 8.5,
-    category: "tortas",
-  },
-  {
-    id: "25",
-    name: "Pudim",
-    price: 9.0,
-    category: "tortas",
-  },
-  {
-    id: "26",
-    name: "Tiramisu",
-    price: 15.0,
-    category: "tortas",
-  },
-  {
-    id: "27",
-    name: "Pavê de Chocolate",
-    price: 11.5,
-    category: "tortas",
-  },
+  // Trufas e Bombons
+  { id: "35", name: "Trufa de Café", price: 4.2, category: "trufas_bombons" },
+  { id: "36", name: "Trufa de Maracujá de Coração", price: 4.2, category: "trufas_bombons" },
+  { id: "37", name: "Trufa de Pistache", price: 5.5, category: "trufas_bombons" },
+  { id: "38", name: "Trufa Mista", price: 4.5, category: "trufas_bombons" },
+  { id: "39", name: "Trufa de Limão", price: 4.5, category: "trufas_bombons" },
+  { id: "40", name: "Trufa Tradicional", price: 4.2, category: "trufas_bombons" },
+
+  // Doces Finos Decorativos
+  { id: "41", name: "Cestinha de Flores e Frutas", price: 5.5, category: "doces_finos_decorativos" },
+  { id: "42", name: "Colher de Brigadeiro Belga", price: 5.5, category: "doces_finos_decorativos" },
+  { id: "43", name: "Maçazinha Caramelizada", price: 4.5, category: "doces_finos_decorativos" },
+  { id: "44", name: "Mini Xícara Trufada", price: 5.5, category: "doces_finos_decorativos" },
+  { id: "45", name: "Torre de Amarena", price: 5.5, category: "doces_finos_decorativos" },
+  { id: "46", name: "Tortinha Banoffe", price: 4.5, category: "doces_finos_decorativos" },
+  { id: "47", name: "Tortinha de Limão", price: 4.5, category: "doces_finos_decorativos" },
+  { id: "48", name: "Torre de Pistache com Uva", price: 5.5, category: "doces_finos_decorativos" },
+
+  // Copinhos
+  { id: "49", name: "Caixinha de Pistache", price: 4.8, category: "copinhos" },
+  { id: "50", name: "Copinho com Nutella e Morango", price: 5.2, category: "copinhos" },
+  { id: "51", name: "Copinho de Nutella com Cereja", price: 4.8, category: "copinhos" },
+  { id: "52", name: "Copinho de Physalis", price: 4.8, category: "copinhos" },
+  { id: "53", name: "Copinho Trufado de Mirtilo", price: 5.5, category: "copinhos" },
+  { id: "54", name: "Copinho Puxa de Nozes", price: 5.2, category: "copinhos" },
+
+  // Lembranças
+  { id: "55", name: "Alfajor", price: 7.5, category: "lembrancas" },
+  { id: "56", name: "Bem Casado", price: 7.5, category: "lembrancas" },
+  { id: "57", name: "Cake Pop", price: 12.0, category: "lembrancas" },
+  { id: "58", name: "Pão de Mel", price: 7.5, category: "lembrancas" },
 ];
