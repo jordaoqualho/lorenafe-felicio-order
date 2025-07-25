@@ -41,7 +41,6 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
-  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">("idle");
   const [deliveryDate, setDeliveryDate] = useState("");
   const quoteSummaryRef = useRef<HTMLDivElement>(null);
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -73,9 +72,6 @@ export default function Home() {
       clearTimeout(saveTimeoutRef.current);
     }
 
-    // Show saving status
-    setSaveStatus("saving");
-
     try {
       // Only save non-empty orders to avoid storing empty objects
       const hasItems = Object.values(quantities).some((qty) => qty > 0);
@@ -93,16 +89,14 @@ export default function Home() {
 
       // Show saved status after 500ms
       saveTimeoutRef.current = setTimeout(() => {
-        setSaveStatus("saved");
-
         // Hide status after 2 seconds
         setTimeout(() => {
-          setSaveStatus("idle");
+          // setSaveStatus("idle"); // This line is removed
         }, 2000);
       }, 500);
     } catch (error) {
       console.warn("Erro ao salvar pedido:", error);
-      setSaveStatus("idle");
+      // setSaveStatus("idle"); // This line is removed
     }
   }, [quantities, deliveryDate, isLoaded]);
 
@@ -121,7 +115,6 @@ export default function Home() {
   const handleClearOrder = () => {
     setQuantities({});
     setDeliveryDate("");
-    setSaveStatus("idle");
     try {
       localStorage.removeItem(STORAGE_KEY);
     } catch (error) {
@@ -197,31 +190,7 @@ export default function Home() {
               <p className="text-sm md:text-base text-gray-600">
                 Selecione a quantidade desejada de cada doce para gerar seu orçamento
               </p>
-              {selectedItems.length > 0 && (
-                <div className="flex items-center space-x-2 mt-1">
-                  {saveStatus === "saving" && (
-                    <div className="flex items-center space-x-1 text-xs text-gray-500 animate-fadeIn">
-                      <div className="w-3 h-3 border border-gray-400 border-t-transparent rounded-full animate-spin"></div>
-                      <span>Salvando...</span>
-                    </div>
-                  )}
-                  {saveStatus === "saved" && (
-                    <div className="flex items-center space-x-1 text-xs text-green-600 font-medium animate-fadeIn">
-                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                        <path
-                          fillRule="evenodd"
-                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                      <span>Salvo automaticamente</span>
-                    </div>
-                  )}
-                  {saveStatus === "idle" && selectedItems.length > 0 && (
-                    <div className="text-xs text-green-600 font-medium">✓ Pedido salvo automaticamente</div>
-                  )}
-                </div>
-              )}
+              {/* The save status indicator JSX is removed */}
             </div>
             {/* Compact sticky bar: only search/filter */}
             <div className="sticky top-0 z-30 px-2 py-1 md:px-4 md:py-2 transition-all duration-300">
