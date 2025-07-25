@@ -26,17 +26,26 @@ export default function QuoteSummary({ selectedItems, onClearOrder }: QuoteSumma
     const itemsList = selectedItems
       .map(
         (item) =>
-          `• ${item.sweet.name} - Qtd: ${item.quantity} - R$ ${(item.sweet.price * item.quantity)
+          `• ${item.quantity} ${item.sweet.name} – R$ ${(item.sweet.price * item.quantity)
             .toFixed(2)
             .replace(".", ",")}`
       )
       .join("\n");
 
-    const dateText = deliveryDate ? ` para o dia ${new Date(deliveryDate).toLocaleDateString("pt-BR")}` : "";
+    const totalQuantity = selectedItems.reduce((sum, item) => sum + item.quantity, 0);
+    const totalValue = total.toFixed(2).replace(".", ",");
+    const dateText = deliveryDate
+      ? `Data do evento/entrega: ${new Date(deliveryDate).toLocaleDateString("pt-BR")}`
+      : "";
 
-    return `Olá! Gostaria de solicitar um orçamento para os seguintes doces:\n\n${itemsList}\n\nTotal: R$ ${total
-      .toFixed(2)
-      .replace(".", ",")}${dateText}.\n\nObrigado(a)!`;
+    return (
+      `Olá! Segue o orçamento do meu pedido:\n` +
+      itemsList +
+      `\n\nTotal de itens: ${totalQuantity}` +
+      `\nValor total: R$ ${totalValue}` +
+      (dateText ? `\n${dateText}` : "") +
+      `\n\nFico no aguardo da confirmação. Obrigada!`
+    );
   };
 
   const copyToClipboard = async () => {
