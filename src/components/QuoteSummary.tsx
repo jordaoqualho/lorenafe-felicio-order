@@ -1,7 +1,7 @@
 "use client";
 
 import { Sweet } from "@/data/sweets";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface SelectedItem {
   sweet: Sweet;
@@ -15,28 +15,8 @@ interface QuoteSummaryProps {
 export default function QuoteSummary({ selectedItems }: QuoteSummaryProps) {
   const [deliveryDate, setDeliveryDate] = useState("");
   const [copySuccess, setCopySuccess] = useState(false);
-  const [animatedItems, setAnimatedItems] = useState<Set<string>>(new Set());
 
   const total = selectedItems.reduce((sum, item) => sum + item.sweet.price * item.quantity, 0);
-
-  // Animate new items when they're added
-  useEffect(() => {
-    const newItems = new Set<string>();
-    selectedItems.forEach((item) => {
-      if (!animatedItems.has(item.sweet.id)) {
-        newItems.add(item.sweet.id);
-      }
-    });
-
-    if (newItems.size > 0) {
-      setAnimatedItems((prev) => new Set([...Array.from(prev), ...Array.from(newItems)]));
-
-      // Clear animation state after animation completes
-      setTimeout(() => {
-        setAnimatedItems(new Set());
-      }, 500);
-    }
-  }, [selectedItems, animatedItems]);
 
   const generateWhatsAppMessage = () => {
     if (selectedItems.length === 0) return "";
@@ -118,9 +98,7 @@ export default function QuoteSummary({ selectedItems }: QuoteSummaryProps) {
         {selectedItems.map((item) => (
           <div
             key={item.sweet.id}
-            className={`flex justify-between items-center py-2 px-3 rounded-lg border-b border-beige-200 last:border-b-0 hover:bg-white/50 transition-all duration-200 ${
-              animatedItems.has(item.sweet.id) ? "animate-bounce-subtle bg-primary-50" : ""
-            }`}
+            className="flex justify-between items-center py-2 px-3 rounded-lg border-b border-beige-200 last:border-b-0 hover:bg-white/50 transition-all duration-200"
           >
             <div className="flex-1 min-w-0">
               <div className="font-medium text-gray-800 text-sm md:text-base truncate">{item.sweet.name}</div>
