@@ -132,7 +132,12 @@ export default function SweetItem({ sweet, quantity, onQuantityChange }: SweetIt
               onMouseDown={handleLongPressStart}
               onMouseUp={handleLongPressEnd}
               onMouseLeave={handleLongPressEnd}
-              className={`text-lg md:text-xl font-semibold text-gray-800 min-w-[3rem] md:min-w-[3.5rem] text-center py-2 px-3 rounded-lg transition-all duration-200 bg-primary-50 hover:bg-primary-100 cursor-pointer border border-primary-200
+              className={`text-lg md:text-xl font-semibold text-gray-800 min-w-[3rem] md:min-w-[3.5rem] text-center py-2 px-3 rounded-lg transition-all duration-200 cursor-pointer
+                ${
+                  quantity > 0
+                    ? "bg-primary-50 hover:bg-primary-100 border border-primary-200"
+                    : "hover:bg-gray-50 border border-gray-200"
+                }
                 ${isLongPressing ? "bg-primary-100 scale-95" : ""}
               `}
               title="Clique para editar quantidade"
@@ -149,7 +154,9 @@ export default function SweetItem({ sweet, quantity, onQuantityChange }: SweetIt
           </div>
         </div>
 
-        <div className="text-xs text-gray-500 text-center">💡 Clique na quantidade para editar rapidamente</div>
+        {quantity >= 10 && (
+          <div className="text-xs text-gray-500 text-center">💡 Clique na quantidade para editar rapidamente</div>
+        )}
       </div>
     </div>
   );
