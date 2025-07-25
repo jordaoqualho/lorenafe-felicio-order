@@ -243,7 +243,18 @@ export default function Home() {
 
         <footer className="mt-12 md:mt-16 text-center">
           <div className="h-1 w-16 md:w-24 bg-gradient-to-r from-primary-400 to-beige-400 mx-auto rounded-full mb-4"></div>
-          <p className="text-xs md:text-sm text-gray-500">Feito com ❤️ para os doces momentos da vida</p>
+          <p className="text-xs md:text-sm text-gray-500 mb-2">Feito com ❤️ para os doces momentos da vida</p>
+          <p className="text-xs text-gray-400">
+            Desenvolvido por{" "}
+            <a
+              href="https://www.linkedin.com/in/jordao-silva/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-primary-500 transition-colors duration-200 underline"
+            >
+              Jordão Silva
+            </a>
+          </p>
         </footer>
       </div>
 
