@@ -39,12 +39,12 @@ export default function QuoteSummary({ selectedItems, onClearOrder }: QuoteSumma
       : "";
 
     return (
-      `Olá! Segue o orçamento do meu pedido:\n` +
+      `Olá! Segue o orçamento do meu pedido:\n\n` +
       itemsList +
       `\n\nTotal de itens: ${totalQuantity}` +
       `\nValor total: R$ ${totalValue}` +
       (dateText ? `\n${dateText}` : "") +
-      `\n\nFico no aguardo da confirmação. Obrigada!`
+      `\n\nFico no aguardo da confirmação. \nObrigada!`
     );
   };
 
