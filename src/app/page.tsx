@@ -9,21 +9,52 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 const STORAGE_KEY = "lorena-felicio-order";
 
+function ScrollToTopButton() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setVisible(window.scrollY > 300);
+    };
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // On mobile, leave extra space for sticky order bar (height ~80px)
+  return (
+    <button
+      type="button"
+      aria-label="Voltar ao topo"
+      title="Back to Top"
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      className={`fixed bottom-24 right-4 z-50 bg-white border border-gray-200 shadow-lg rounded-full p-3 text-primary-600 hover:bg-primary-50 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2
+        ${visible ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+      style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}
+    >
+      <span className="text-2xl">↑</span>
+    </button>
+  );
+}
+
 export default function Home() {
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">("idle");
+  const [deliveryDate, setDeliveryDate] = useState("");
   const quoteSummaryRef = useRef<HTMLDivElement>(null);
+  const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Load quantities from localStorage on component mount
+  // Load quantities and delivery date from localStorage on component mount
   useEffect(() => {
     try {
       const savedOrder = localStorage.getItem(STORAGE_KEY);
       if (savedOrder) {
         const parsedOrder = JSON.parse(savedOrder);
         if (parsedOrder && typeof parsedOrder === "object") {
-          setQuantities(parsedOrder);
+          setQuantities(parsedOrder.quantities || {});
+          setDeliveryDate(parsedOrder.deliveryDate || "");
         }
       }
     } catch (error) {
@@ -33,23 +64,47 @@ export default function Home() {
     }
   }, []);
 
-  // Save quantities to localStorage whenever they change
+  // Save quantities and delivery date to localStorage with animation
   useEffect(() => {
     if (!isLoaded) return; // Don't save during initial load
+
+    // Clear existing timeout
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current);
+    }
+
+    // Show saving status
+    setSaveStatus("saving");
 
     try {
       // Only save non-empty orders to avoid storing empty objects
       const hasItems = Object.values(quantities).some((qty) => qty > 0);
-      if (hasItems) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(quantities));
+      const orderData = {
+        quantities,
+        deliveryDate,
+      };
+
+      if (hasItems || deliveryDate) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(orderData));
       } else {
-        // Clear localStorage if no items are selected
+        // Clear localStorage if no items are selected and no date
         localStorage.removeItem(STORAGE_KEY);
       }
+
+      // Show saved status after 500ms
+      saveTimeoutRef.current = setTimeout(() => {
+        setSaveStatus("saved");
+
+        // Hide status after 2 seconds
+        setTimeout(() => {
+          setSaveStatus("idle");
+        }, 2000);
+      }, 500);
     } catch (error) {
       console.warn("Erro ao salvar pedido:", error);
+      setSaveStatus("idle");
     }
-  }, [quantities, isLoaded]);
+  }, [quantities, deliveryDate, isLoaded]);
 
   const handleQuantityChange = (id: string, quantity: number) => {
     setQuantities((prev) => ({
@@ -58,9 +113,15 @@ export default function Home() {
     }));
   };
 
+  const handleDeliveryDateChange = (date: string) => {
+    setDeliveryDate(date);
+  };
+
   // Clear entire order
   const handleClearOrder = () => {
     setQuantities({});
+    setDeliveryDate("");
+    setSaveStatus("idle");
     try {
       localStorage.removeItem(STORAGE_KEY);
     } catch (error) {
@@ -122,43 +183,48 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-beige-50 to-primary-50">
+      <ScrollToTopButton />
       <div className="container mx-auto px-4 py-6 md:py-8 max-w-6xl">
         <header className="text-center mb-6 md:mb-8">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-2">Lorena Felício</h1>
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-2">Lorena Felicio Confeitaria</h1>
           <p className="text-base md:text-lg text-gray-600 mb-4">Doces & Sobremesas Artesanais</p>
           <div className="h-1 w-16 md:w-24 bg-gradient-to-r from-primary-400 to-beige-400 mx-auto rounded-full"></div>
         </header>
-
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           <div className="lg:col-span-2">
-            <div className="mb-4 md:mb-6">
-              <div className="flex items-center justify-between mb-2 md:mb-4">
-                <h2 className="text-xl md:text-2xl font-bold text-gray-800">Nossos Doces</h2>
-                {selectedItems.length > 0 && (
-                  <button
-                    onClick={handleClearOrder}
-                    className="text-sm text-gray-500 hover:text-red-500 transition-colors duration-200 flex items-center space-x-1"
-                    title="Limpar pedido"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1-1H8a1 1 0 00-1 1v3M4 7h16"
-                      />
-                    </svg>
-                    <span>Limpar pedido</span>
-                  </button>
-                )}
-              </div>
-              <p className="text-sm md:text-base text-gray-600 mb-4 md:mb-6">
+            {/* Status and instructions above sticky bar */}
+            <div className="mb-2">
+              <p className="text-sm md:text-base text-gray-600">
                 Selecione a quantidade desejada de cada doce para gerar seu orçamento
-                {selectedItems.length > 0 && (
-                  <span className="block mt-1 text-xs text-green-600 font-medium">✓ Pedido salvo automaticamente</span>
-                )}
               </p>
-
+              {selectedItems.length > 0 && (
+                <div className="flex items-center space-x-2 mt-1">
+                  {saveStatus === "saving" && (
+                    <div className="flex items-center space-x-1 text-xs text-gray-500 animate-fadeIn">
+                      <div className="w-3 h-3 border border-gray-400 border-t-transparent rounded-full animate-spin"></div>
+                      <span>Salvando...</span>
+                    </div>
+                  )}
+                  {saveStatus === "saved" && (
+                    <div className="flex items-center space-x-1 text-xs text-green-600 font-medium animate-fadeIn">
+                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      <span>Salvo automaticamente</span>
+                    </div>
+                  )}
+                  {saveStatus === "idle" && selectedItems.length > 0 && (
+                    <div className="text-xs text-green-600 font-medium">✓ Pedido salvo automaticamente</div>
+                  )}
+                </div>
+              )}
+            </div>
+            {/* Compact sticky bar: only search/filter */}
+            <div className="sticky top-0 z-30 px-2 py-1 md:px-4 md:py-2 transition-all duration-300">
               <SearchBar
                 searchTerm={searchTerm}
                 onSearchChange={setSearchTerm}
@@ -179,6 +245,7 @@ export default function Home() {
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
+                    aria-hidden="true"
                   >
                     <path
                       strokeLinecap="round"
@@ -196,11 +263,11 @@ export default function Home() {
               <div className="space-y-8">
                 {categoryKeys.map((categoryKey) => (
                   <div key={categoryKey} className="animate-fadeIn">
-                    <h3 className="text-lg md:text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                      <span className="h-2 w-2 bg-primary-400 rounded-full mr-3"></span>
-                      {categories[categoryKey]}
-                      <span className="ml-2 text-sm font-normal text-gray-500">
-                        ({groupedSweets[categoryKey].length} itens)
+                    <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-primary-50 to-beige-50 p-3 rounded-lg border border-primary-100">
+                      <span className="h-3 w-3 bg-primary-500 rounded-full mr-3 shadow-sm"></span>
+                      <span className="text-gray-800">{categories[categoryKey]}</span>
+                      <span className="ml-auto text-sm font-normal text-gray-500 bg-white px-2 py-1 rounded-full">
+                        {groupedSweets[categoryKey].length} itens
                       </span>
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
@@ -236,30 +303,29 @@ export default function Home() {
           {/* Desktop Quote Summary */}
           <div className="lg:col-span-1">
             <div className="sticky top-6" ref={quoteSummaryRef}>
-              <QuoteSummary selectedItems={selectedItems} />
+              <QuoteSummary selectedItems={selectedItems} onClearOrder={handleClearOrder} />
             </div>
           </div>
         </div>
-
-        <footer className="mt-12 md:mt-16 text-center">
-          <div className="h-1 w-16 md:w-24 bg-gradient-to-r from-primary-400 to-beige-400 mx-auto rounded-full mb-4"></div>
-          <p className="text-xs md:text-sm text-gray-500 mb-2">Feito com ❤️ para os doces momentos da vida</p>
-          <p className="text-xs text-gray-400">
-            Desenvolvido por{" "}
-            <a
-              href="https://www.linkedin.com/in/jordao-silva/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-primary-500 transition-colors duration-200 underline"
-            >
-              Jordão Silva
-            </a>
-          </p>
-        </footer>
       </div>
 
+      <footer className="mt-12 md:mt-16 text-center">
+        <div className="h-1 w-16 md:w-24 bg-gradient-to-r from-primary-400 to-beige-400 mx-auto rounded-full mb-4"></div>
+        <p className="text-xs md:text-sm text-gray-500 mb-2">Feito com ❤️ para os doces momentos da vida</p>
+        <p className="text-xs text-gray-400">
+          Desenvolvido por{" "}
+          <a
+            href="https://www.linkedin.com/in/jordao-silva/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-primary-500 transition-colors duration-200 underline"
+          >
+            Jordão Silva
+          </a>
+        </p>
+      </footer>
       {/* Mobile Sticky Bar */}
-      <MobileStickyBar selectedItems={selectedItems} onViewQuote={handleViewQuote} />
+      <MobileStickyBar selectedItems={selectedItems} onViewQuote={handleViewQuote} onClearOrder={handleClearOrder} />
     </div>
   );
 }
