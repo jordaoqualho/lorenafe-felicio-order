@@ -45,7 +45,7 @@ export const sweets: Sweet[] = [
   // Doces Finos - Luxo
   { id: "23", name: "Brigadeiro crocante dourado", price: 4.5, category: "doces_finos_luxo" },
   { id: "24", name: "Bombom de Cereja", price: 4.5, category: "doces_finos_luxo" },
-  { id: "25", name: "Coco", price: 4.2, category: "doces_finos_luxo" },
+  { id: "25", name: "Bombom de Coco", price: 4.2, category: "doces_finos_luxo" },
   { id: "26", name: "Diamante de Ovomaltine", price: 4.8, category: "doces_finos_luxo" },
   { id: "27", name: "Bombom de Morango", price: 6.8, category: "doces_finos_luxo" },
   { id: "28", name: "Morango aberto", price: 6.8, category: "doces_finos_luxo" },
