@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Lorena Felício Confeitaria | Doces para momentos especiais",
+  title: "Lorena Felício Confeitaria | Tabela de Doces",
   description:
-    "Faça seu pedido de doces personalizados para festas, casamentos e eventos. Sabor e beleza em cada detalhe.",
+    "Faça seu pedido de doces personalizados para festas, casamentos e eventos",
   keywords: ["doces", "confeitaria", "sobremesas", "brigadeiro", "bem casado", "festas", "casamentos", "eventos"],
   openGraph: {
-    title: "Lorena Felício Confeitaria | Doces para momentos especiais",
+    title: "Lorena Felício Confeitaria | Tabela de Doces",
     description:
-      "Faça seu pedido de doces personalizados para festas, casamentos e eventos. Sabor e beleza em cada detalhe.",
+      "Faça seu pedido de doces personalizados para festas, casamentos e eventos",
     url: "https://www.lorenafelicio.com.br/",
     siteName: "Lorena Felício Confeitaria",
     type: "website",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Lorena Felício Confeitaria | Doces para momentos especiais",
+    title: "Lorena Felício Confeitaria | Tabela de Doces",
     description: "Faça seu pedido de doces personalizados para festas, casamentos e eventos.",
     images: ["/images/metalink.png"],
   },
@@ -36,10 +36,6 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR">
-      <head>
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="shortcut icon" href="/favicon.ico" />
-      </head>
       <body>{children}</body>
     </html>
   );
