@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/images/metalink.png",
+        url: "/images/screenshot-desktop.png",
         width: 1200,
         height: 630,
         alt: "Lorena Felício Confeitaria - Doces artesanais",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Lorena Felício Confeitaria | Tabela de Doces",
     description: "Faça seu pedido de doces personalizados para festas, casamentos e eventos.",
-    images: ["/images/metalink.png"],
+    images: ["/images/screenshot-desktop.png"],
   },
   icons: {
     icon: [{ url: "/favicon.ico" }, { url: "/favicon.ico", sizes: "any" }],
@@ -34,6 +34,16 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" suppressHydrationWarning>
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#d97706" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Lorena Fe" />
+        <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" />
+        <meta name="msapplication-TileColor" content="#d97706" />
+        <meta name="msapplication-config" content="/browserconfig.xml" />
+      </head>
       <body>{children}</body>
     </html>
   );

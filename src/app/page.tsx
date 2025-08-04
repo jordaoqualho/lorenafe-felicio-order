@@ -1,5 +1,6 @@
 "use client";
 
+import InstallPrompt from "@/components/InstallPrompt";
 import MobileStickyBar from "@/components/MobileStickyBar";
 import QuoteSummary from "@/components/QuoteSummary";
 import SearchBar from "@/components/SearchBar";
@@ -175,7 +176,7 @@ export default function Home() {
                 Selecione a quantidade desejada de cada doce para gerar seu orçamento
               </p>
             </div>
-            <div className="sticky top-0 z-30 px-2 py-1 md:px-4 md:py-2 transition-all duration-300">
+            <div className="sticky top-0 z-30 px-2 py-1 md:px-0 md:py-2 transition-all duration-300">
               <SearchBar
                 searchTerm={searchTerm}
                 onSearchChange={setSearchTerm}
@@ -256,7 +257,7 @@ export default function Home() {
         </div>
       </div>
 
-      <footer className="mt-12 md:mt-16 text-center">
+      <footer className="mt-12 md:py-8 text-center">
         <div className="h-1 w-16 md:w-24 bg-gradient-to-r from-primary-400 to-beige-400 mx-auto rounded-full mb-4"></div>
         <p className="text-xs md:text-sm text-gray-500 mb-2">Feito com ❤️ para os doces momentos da vida</p>
         <p className="text-xs text-gray-400">
@@ -272,6 +273,7 @@ export default function Home() {
         </p>
       </footer>
       <MobileStickyBar selectedItems={selectedItems} onViewQuote={handleViewQuote} onClearOrder={handleClearOrder} />
+      <InstallPrompt />
     </div>
   );
 }
