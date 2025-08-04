@@ -3,7 +3,7 @@ export interface Sweet {
   name: string;
   price: number;
   category: string;
-  image?: string; // Optional image path
+  image?: string;
 }
 
 export const categories: Record<string, string> = {
@@ -17,44 +17,39 @@ export const categories: Record<string, string> = {
 };
 
 export const sweets: Sweet[] = [
-  // Brigadeiros Tradicionais
   {
     id: "1",
     name: "Beijinho",
     price: 3.0,
     category: "brigadeiros_tradicionais",
-    image: "/images/sweets/beijinho.jpeg",
   },
   {
     id: "2",
     name: "Brigadeiro",
     price: 3.2,
     category: "brigadeiros_tradicionais",
-    image: "/images/sweets/brigadeiro.jpeg",
+    image: "/images/sweets/brigadeiro.jpg",
   },
   {
     id: "3",
     name: "Bicho de pé",
     price: 3.5,
     category: "brigadeiros_tradicionais",
-    image: "/images/sweets/bicho-de-pe.jpeg",
   },
-  { id: "4", name: "Café", price: 3.2, category: "brigadeiros_tradicionais", image: "/images/sweets/cafe.jpeg" },
+  { id: "4", name: "Café", price: 3.2, category: "brigadeiros_tradicionais" },
   {
     id: "5",
     name: "Cajuzinho",
     price: 3.0,
     category: "brigadeiros_tradicionais",
-    image: "/images/sweets/cajuzinho.jpeg",
   },
   {
     id: "6",
     name: "Casadinho",
     price: 3.0,
     category: "brigadeiros_tradicionais",
-    image: "/images/sweets/casadinho.jpeg",
   },
-  { id: "7", name: "Churros", price: 3.0, category: "brigadeiros_tradicionais", image: "/images/sweets/churros.jpeg" },
+  { id: "7", name: "Churros", price: 3.0, category: "brigadeiros_tradicionais" },
   {
     id: "8",
     name: "Coco queimado",
@@ -67,7 +62,6 @@ export const sweets: Sweet[] = [
     name: "Flor de Beijinho",
     price: 3.5,
     category: "brigadeiros_tradicionais",
-    image: "/images/sweets/flor-de-beijinho.jpeg",
   },
   {
     id: "10",
@@ -76,30 +70,27 @@ export const sweets: Sweet[] = [
     category: "brigadeiros_tradicionais",
     image: "/images/sweets/flor-napolitana.jpeg",
   },
-  { id: "11", name: "Ninho", price: 3.0, category: "brigadeiros_tradicionais", image: "/images/sweets/ninho.jpeg" },
+  { id: "11", name: "Ninho", price: 3.0, category: "brigadeiros_tradicionais" },
 
-  // Brigadeiros Luxo
-  { id: "12", name: "Belga", price: 4.2, category: "brigadeiros_luxo", image: "/images/sweets/belga.jpeg" },
+  { id: "12", name: "Belga", price: 4.2, category: "brigadeiros_luxo" },
   {
     id: "13",
     name: "Belga Amargo",
     price: 4.2,
     category: "brigadeiros_luxo",
-    image: "/images/sweets/belga-amargo.jpeg",
   },
   {
     id: "14",
     name: "Brigadeiro Trufado",
     price: 4.2,
     category: "brigadeiros_luxo",
-    image: "/images/sweets/brigadeiro-trufado.jpeg",
   },
   {
     id: "15",
     name: "Brigadeiro Brulee",
     price: 3.5,
     category: "brigadeiros_luxo",
-    image: "/images/sweets/brigadeiro-brulee.jpeg",
+    image: "/images/sweets/brigadeiro-brulee.jpg",
   },
   {
     id: "16",
@@ -113,14 +104,12 @@ export const sweets: Sweet[] = [
     name: "Kinder Bueno",
     price: 4.2,
     category: "brigadeiros_luxo",
-    image: "/images/sweets/kinder-bueno.jpeg",
   },
   {
     id: "18",
     name: "Limão Siciliano e Coco",
     price: 3.5,
     category: "brigadeiros_luxo",
-    image: "/images/sweets/limao-siciliano-coco.jpeg",
   },
   {
     id: "19",
@@ -134,14 +123,12 @@ export const sweets: Sweet[] = [
     name: "Olho de Sogra",
     price: 3.5,
     category: "brigadeiros_luxo",
-    image: "/images/sweets/olho-de-sogra.jpeg",
   },
   {
     id: "21",
     name: "Bombom de Pistache",
     price: 4.5,
     category: "brigadeiros_luxo",
-    image: "/images/sweets/bombom-pistache.jpeg",
   },
   {
     id: "22",
@@ -151,13 +138,11 @@ export const sweets: Sweet[] = [
     image: "/images/sweets/romeu-julieta.jpeg",
   },
 
-  // Doces Finos - Luxo
   {
     id: "23",
     name: "Brigadeiro crocante dourado",
     price: 4.5,
     category: "doces_finos_luxo",
-    image: "/images/sweets/brigadeiro-crocante-dourado.jpeg",
   },
   {
     id: "24",
@@ -178,7 +163,6 @@ export const sweets: Sweet[] = [
     name: "Diamante de Ovomaltine",
     price: 4.8,
     category: "doces_finos_luxo",
-    image: "/images/sweets/diamante-ovomaltine.jpeg",
   },
   {
     id: "27",
@@ -192,7 +176,6 @@ export const sweets: Sweet[] = [
     name: "Morango aberto",
     price: 6.8,
     category: "doces_finos_luxo",
-    image: "/images/sweets/morango-aberto.jpeg",
   },
   {
     id: "29",
@@ -201,20 +184,18 @@ export const sweets: Sweet[] = [
     category: "doces_finos_luxo",
     image: "/images/sweets/bombom-nozes.jpeg",
   },
-  { id: "30", name: "Bombom Uva", price: 4.5, category: "doces_finos_luxo", image: "/images/sweets/bombom-uva.jpeg" },
+  { id: "30", name: "Bombom Uva", price: 4.5, category: "doces_finos_luxo" },
   {
     id: "31",
     name: "Uva c/ sucrilhos",
     price: 4.5,
     category: "doces_finos_luxo",
-    image: "/images/sweets/uva-sucrilhos.jpeg",
   },
   {
     id: "32",
     name: "Uva s/ chocolate",
     price: 4.3,
     category: "doces_finos_luxo",
-    image: "/images/sweets/uva-sem-chocolate.jpeg",
   },
   {
     id: "33",
@@ -313,36 +294,32 @@ export const sweets: Sweet[] = [
     name: "Moedinha de limão siciliano",
     price: 5.5,
     category: "doces_finos_luxo",
-    image: "/images/sweets/moedinha-limao.jpg",
+    image: "/images/sweets/moedinha-limão.jpg",
   },
   {
     id: "72",
     name: "Ninho de Fios de Ovos",
     price: 6.5,
     category: "doces_finos_luxo",
-    image: "/images/sweets/ninho-fios-ovos.jpeg",
   },
   {
     id: "73",
     name: "Olho de sogra Caramelizado",
     price: 4.2,
     category: "doces_finos_luxo",
-    image: "/images/sweets/olho-sogra-caramelizado.jpeg",
   },
   {
     id: "74",
     name: "Ouriço de Coco",
     price: 3.5,
     category: "doces_finos_luxo",
-    image: "/images/sweets/ourico-coco.jpeg",
   },
-  { id: "75", name: "Raffaello", price: 6.5, category: "doces_finos_luxo", image: "/images/sweets/raffaello.jpeg" },
+  { id: "75", name: "Raffaello", price: 6.5, category: "doces_finos_luxo" },
   {
     id: "76",
     name: "Sushi de Damasco",
     price: 6.5,
     category: "doces_finos_luxo",
-    image: "/images/sweets/sushi-damasco.jpeg",
   },
   {
     id: "77",
@@ -352,8 +329,7 @@ export const sweets: Sweet[] = [
     image: "/images/sweets/trouxinha-coco.jpg",
   },
 
-  // Trufas e Bombons
-  { id: "35", name: "Trufa de Café", price: 4.2, category: "trufas_bombons", image: "/images/sweets/trufa-cafe.jpeg" },
+  { id: "35", name: "Trufa de Café", price: 4.2, category: "trufas_bombons" },
   {
     id: "36",
     name: "Trufa de Maracujá de Coração",
@@ -366,7 +342,6 @@ export const sweets: Sweet[] = [
     name: "Trufa de Pistache",
     price: 5.5,
     category: "trufas_bombons",
-    image: "/images/sweets/trufa-pistache.jpeg",
   },
   { id: "38", name: "Trufa Mista", price: 4.5, category: "trufas_bombons", image: "/images/sweets/trufa-mista.jpeg" },
   {
@@ -374,7 +349,6 @@ export const sweets: Sweet[] = [
     name: "Trufa de Limão",
     price: 4.5,
     category: "trufas_bombons",
-    image: "/images/sweets/trufa-limao.jpeg",
   },
   {
     id: "40",
@@ -384,7 +358,6 @@ export const sweets: Sweet[] = [
     image: "/images/sweets/trufa-tradicional.jpeg",
   },
 
-  // Doces Finos Decorativos
   {
     id: "41",
     name: "Cestinha de Flores e Frutas",
@@ -425,14 +398,12 @@ export const sweets: Sweet[] = [
     name: "Tortinha Banoffe",
     price: 4.5,
     category: "doces_finos_decorativos",
-    image: "/images/sweets/tortinha-banoffe.jpeg",
   },
   {
     id: "47",
     name: "Tortinha de Limão",
     price: 4.5,
     category: "doces_finos_decorativos",
-    image: "/images/sweets/tortinha-limao.jpeg",
   },
   {
     id: "48",
@@ -442,7 +413,6 @@ export const sweets: Sweet[] = [
     image: "/images/sweets/torre-pistache-uva.jpeg",
   },
 
-  // Copinhos
   {
     id: "49",
     name: "Caixinha de Pistache",
@@ -487,7 +457,6 @@ export const sweets: Sweet[] = [
   },
   { id: "78", name: "Puxa de Nuts", price: 5.5, category: "copinhos", image: "/images/sweets/puxa-nuts.jpeg" },
 
-  // Lembranças
   { id: "55", name: "Alfajor", price: 7.5, category: "lembrancas", image: "/images/sweets/alfajor.jpeg" },
   { id: "56", name: "Bem Casado", price: 7.5, category: "lembrancas", image: "/images/sweets/bem-casado.jpeg" },
   { id: "57", name: "Cake Pop", price: 12.0, category: "lembrancas", image: "/images/sweets/cake-pop.jpeg" },

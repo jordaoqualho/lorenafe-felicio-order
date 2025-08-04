@@ -26,7 +26,6 @@ export default function SearchBar({
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-6 space-y-4">
-      {/* Search Input */}
       <div className="relative">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <svg
@@ -72,7 +71,6 @@ export default function SearchBar({
         )}
       </div>
 
-      {/* Category Filter Toggle */}
       <div className="flex items-center justify-between">
         <button
           onClick={() => setIsExpanded(!isExpanded)}
@@ -98,7 +96,6 @@ export default function SearchBar({
         </div>
       </div>
 
-      {/* Category Filter Options */}
       {isExpanded && (
         <div className="space-y-2 border-t border-gray-100 pt-4">
           <div className="flex flex-wrap gap-2">

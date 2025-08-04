@@ -17,13 +17,23 @@ export default function SweetItem({ sweet, quantity, onQuantityChange }: SweetIt
   const [showTip, setShowTip] = useState(false);
   const [isHighlighted, setIsHighlighted] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [imageLoading, setImageLoading] = useState(!!sweet.image);
   const longPressTimer = useRef<NodeJS.Timeout | null>(null);
   const tipTimer = useRef<NodeJS.Timeout | null>(null);
   const highlightTimer = useRef<NodeJS.Timeout | null>(null);
   const inactivityTimer = useRef<NodeJS.Timeout | null>(null);
   const [isLongPressing, setIsLongPressing] = useState(false);
 
-  // Hide tip after 4 seconds when it appears
+  useEffect(() => {
+    if (sweet.image) {
+      setImageLoading(true);
+      setImageError(false);
+    } else {
+      setImageLoading(false);
+      setImageError(false);
+    }
+  }, [sweet.image]);
+
   useEffect(() => {
     if (showTip) {
       tipTimer.current = setTimeout(() => {
@@ -37,7 +47,6 @@ export default function SweetItem({ sweet, quantity, onQuantityChange }: SweetIt
     };
   }, [showTip]);
 
-  // Auto-close modal after 8 seconds of inactivity
   useEffect(() => {
     if (showBulkInput) {
       const resetTimer = () => {
@@ -49,7 +58,7 @@ export default function SweetItem({ sweet, quantity, onQuantityChange }: SweetIt
         }, 8000);
       };
 
-      resetTimer(); // Start initial timer
+      resetTimer();
 
       return () => {
         if (inactivityTimer.current) {
@@ -59,7 +68,6 @@ export default function SweetItem({ sweet, quantity, onQuantityChange }: SweetIt
     }
   }, [showBulkInput]);
 
-  // Reset inactivity timer on user interaction
   const resetInactivityTimer = () => {
     if (inactivityTimer.current) {
       clearTimeout(inactivityTimer.current);
@@ -71,7 +79,6 @@ export default function SweetItem({ sweet, quantity, onQuantityChange }: SweetIt
     }
   };
 
-  // Reset click count when quantity reaches 0
   useEffect(() => {
     if (quantity === 0) {
       setAddClickCount(0);
@@ -79,7 +86,6 @@ export default function SweetItem({ sweet, quantity, onQuantityChange }: SweetIt
     }
   }, [quantity]);
 
-  // Highlight effect when quantity changes
   useEffect(() => {
     if (quantity > 0) {
       setIsHighlighted(true);
@@ -103,7 +109,6 @@ export default function SweetItem({ sweet, quantity, onQuantityChange }: SweetIt
   const handleIncrease = () => {
     onQuantityChange(sweet.id, quantity + 1);
 
-    // Count clicks and show tip after 5 clicks
     const newClickCount = addClickCount + 1;
     setAddClickCount(newClickCount);
 
@@ -158,7 +163,82 @@ export default function SweetItem({ sweet, quantity, onQuantityChange }: SweetIt
   };
 
   const handleImageError = () => {
-    setImageError(true);
+    setTimeout(() => {
+      setImageError(true);
+      setImageLoading(false);
+    }, 500);
+  };
+
+  const handleImageLoad = () => {
+    setTimeout(() => {
+      setImageLoading(false);
+      setImageError(false);
+    }, 500);
+  };
+
+  const renderImageSection = () => {
+    if (!sweet.image) {
+      return (
+        <div className="relative h-48 bg-gradient-to-br from-primary-50 to-beige-50 overflow-hidden">
+          <div className="w-full h-full flex items-center justify-center">
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-2 bg-gradient-to-br from-primary-200 to-beige-200 rounded-full flex items-center justify-center">
+                <svg className="w-8 h-8 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    fillRule="evenodd"
+                    d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <p className="text-sm text-gray-500 font-medium">Imagem não disponível</p>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="relative h-48 bg-gradient-to-br from-primary-50 to-beige-50 overflow-hidden">
+        <Image
+          key={sweet.image}
+          src={sweet.image}
+          alt={sweet.name}
+          fill
+          className={`object-cover transition-all duration-300 hover:scale-105 ${
+            imageLoading || imageError ? "opacity-0" : "opacity-100"
+          }`}
+          onError={handleImageError}
+          onLoad={handleImageLoad}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
+
+        {imageLoading && (
+          <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-pulse z-10">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-16 h-16 bg-gray-300 rounded-full animate-pulse"></div>
+            </div>
+          </div>
+        )}
+
+        {imageError && (
+          <div className="absolute inset-0 flex items-center justify-center z-10">
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-2 bg-gradient-to-br from-primary-200 to-beige-200 rounded-full flex items-center justify-center">
+                <svg className="w-8 h-8 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    fillRule="evenodd"
+                    d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <p className="text-sm text-gray-500 font-medium">Imagem não disponível</p>
+            </div>
+          </div>
+        )}
+      </div>
+    );
   };
 
   return (
@@ -232,46 +312,17 @@ export default function SweetItem({ sweet, quantity, onQuantityChange }: SweetIt
       )}
 
       <div className="flex flex-col h-full">
-        {/* Image Section */}
-        <div className="relative h-48 bg-gradient-to-br from-primary-50 to-beige-50 overflow-hidden">
-          {sweet.image && !imageError ? (
-            <Image
-              src={sweet.image}
-              alt={sweet.name}
-              fill
-              className="object-cover transition-transform duration-300 hover:scale-105"
-              onError={handleImageError}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              <div className="text-center">
-                <div className="w-16 h-16 mx-auto mb-2 bg-gradient-to-br from-primary-200 to-beige-200 rounded-full flex items-center justify-center">
-                  <svg className="w-8 h-8 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                      fillRule="evenodd"
-                      d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <p className="text-sm text-gray-500 font-medium">Imagem não disponível</p>
-              </div>
-            </div>
-          )}
+        {renderImageSection()}
 
-          {/* Category Badge */}
-          <div className="absolute top-3 right-3">
-            <span
-              className="text-xs px-2 py-1 bg-white/90 backdrop-blur-sm text-beige-800 rounded-full whitespace-nowrap font-medium shadow-sm"
-              aria-label={`Categoria: ${categories[sweet.category]}`}
-            >
-              {categories[sweet.category]}
-            </span>
-          </div>
+        <div className="absolute top-3 right-3">
+          <span
+            className="text-xs px-2 py-1 bg-white/90 backdrop-blur-sm text-beige-800 rounded-full whitespace-nowrap font-medium shadow-sm"
+            aria-label={`Categoria: ${categories[sweet.category]}`}
+          >
+            {categories[sweet.category]}
+          </span>
         </div>
 
-        {/* Content Section */}
         <div className="p-4 md:p-6 flex flex-col flex-1">
           <div className="flex-1">
             <h3

@@ -107,7 +107,6 @@ export default function QuoteSummary({ selectedItems, onClearOrder }: QuoteSumma
 
   return (
     <div className="bg-beige-50 border border-beige-200 rounded-xl p-4 md:p-6 space-y-4 md:space-y-6 animate-slideUp">
-      {/* Clear Order Confirmation Modal */}
       {showClearConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg p-6 max-w-sm w-full shadow-xl">

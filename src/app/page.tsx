@@ -20,7 +20,6 @@ function ScrollToTopButton() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // On mobile, leave extra space for sticky order bar (height ~80px)
   return (
     <button
       type="button"
@@ -45,7 +44,6 @@ export default function Home() {
   const quoteSummaryRef = useRef<HTMLDivElement>(null);
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Load quantities and delivery date from localStorage on component mount
   useEffect(() => {
     try {
       const savedOrder = localStorage.getItem(STORAGE_KEY);
@@ -63,17 +61,14 @@ export default function Home() {
     }
   }, []);
 
-  // Save quantities and delivery date to localStorage with animation
   useEffect(() => {
-    if (!isLoaded) return; // Don't save during initial load
+    if (!isLoaded) return;
 
-    // Clear existing timeout
     if (saveTimeoutRef.current) {
       clearTimeout(saveTimeoutRef.current);
     }
 
     try {
-      // Only save non-empty orders to avoid storing empty objects
       const hasItems = Object.values(quantities).some((qty) => qty > 0);
       const orderData = {
         quantities,
@@ -83,20 +78,14 @@ export default function Home() {
       if (hasItems || deliveryDate) {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(orderData));
       } else {
-        // Clear localStorage if no items are selected and no date
         localStorage.removeItem(STORAGE_KEY);
       }
 
-      // Show saved status after 500ms
       saveTimeoutRef.current = setTimeout(() => {
-        // Hide status after 2 seconds
-        setTimeout(() => {
-          // setSaveStatus("idle"); // This line is removed
-        }, 2000);
+        setTimeout(() => {}, 2000);
       }, 500);
     } catch (error) {
       console.warn("Erro ao salvar pedido:", error);
-      // setSaveStatus("idle"); // This line is removed
     }
   }, [quantities, deliveryDate, isLoaded]);
 
@@ -111,7 +100,6 @@ export default function Home() {
     setDeliveryDate(date);
   };
 
-  // Clear entire order
   const handleClearOrder = () => {
     setQuantities({});
     setDeliveryDate("");
@@ -122,7 +110,6 @@ export default function Home() {
     }
   };
 
-  // Filter sweets based on search term and category
   const filteredSweets = useMemo(() => {
     return sweets.filter((sweet) => {
       const matchesSearch = sweet.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -131,7 +118,6 @@ export default function Home() {
     });
   }, [searchTerm, selectedCategory]);
 
-  // Group filtered sweets by category
   const groupedSweets = useMemo(() => {
     const grouped: Record<string, typeof sweets> = {};
     filteredSweets.forEach((sweet) => {
@@ -162,7 +148,6 @@ export default function Home() {
   const categoryKeys = Object.keys(groupedSweets);
   const showGrouped = selectedCategory === "" && searchTerm === "";
 
-  // Show loading state during hydration to prevent layout shift
   if (!isLoaded) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-beige-50 to-primary-50 flex items-center justify-center">
@@ -185,14 +170,11 @@ export default function Home() {
         </header>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           <div className="lg:col-span-2">
-            {/* Status and instructions above sticky bar */}
             <div className="mb-2">
               <p className="text-sm md:text-base text-gray-600">
                 Selecione a quantidade desejada de cada doce para gerar seu orçamento
               </p>
-              {/* The save status indicator JSX is removed */}
             </div>
-            {/* Compact sticky bar: only search/filter */}
             <div className="sticky top-0 z-30 px-2 py-1 md:px-4 md:py-2 transition-all duration-300">
               <SearchBar
                 searchTerm={searchTerm}
@@ -204,7 +186,6 @@ export default function Home() {
               />
             </div>
 
-            {/* Sweets Grid */}
             {filteredSweets.length === 0 ? (
               <div className="text-center py-12">
                 <div className="text-gray-400 mb-4">
@@ -228,7 +209,6 @@ export default function Home() {
                 <p className="text-gray-400 text-sm mt-2">Tente ajustar sua busca ou filtros</p>
               </div>
             ) : showGrouped ? (
-              // Grouped by category
               <div className="space-y-8">
                 {categoryKeys.map((categoryKey) => (
                   <div key={categoryKey} className="animate-fadeIn">
@@ -254,7 +234,6 @@ export default function Home() {
                 ))}
               </div>
             ) : (
-              // Flat grid when searching or filtering
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                 {filteredSweets.map((sweet) => (
                   <div key={sweet.id} className="animate-slideIn">
@@ -269,7 +248,6 @@ export default function Home() {
             )}
           </div>
 
-          {/* Desktop Quote Summary */}
           <div className="lg:col-span-1">
             <div className="sticky top-6" ref={quoteSummaryRef}>
               <QuoteSummary selectedItems={selectedItems} onClearOrder={handleClearOrder} />
@@ -293,7 +271,6 @@ export default function Home() {
           </a>
         </p>
       </footer>
-      {/* Mobile Sticky Bar */}
       <MobileStickyBar selectedItems={selectedItems} onViewQuote={handleViewQuote} onClearOrder={handleClearOrder} />
     </div>
   );

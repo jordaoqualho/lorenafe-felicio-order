@@ -26,14 +26,12 @@ export default function MobileStickyBar({ selectedItems, onViewQuote, onClearOrd
     setShowClearConfirm(false);
   };
 
-  // Don't show the bar if no items are selected
   if (selectedItems.length === 0) {
     return null;
   }
 
   return (
     <>
-      {/* Clear Order Confirmation Modal */}
       {showClearConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg p-6 max-w-sm w-full shadow-xl">
@@ -81,15 +79,12 @@ export default function MobileStickyBar({ selectedItems, onViewQuote, onClearOrd
         </div>
       )}
 
-      {/* Spacer to prevent content from being hidden behind the fixed bar */}
       <div className="h-20 lg:hidden" />
 
-      {/* Fixed Bottom Bar - Only visible on mobile/tablet */}
       <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden">
         <div className="bg-white border-t border-gray-200 shadow-lg">
           <div className="container mx-auto px-4 py-3">
             <div className="flex items-center justify-between">
-              {/* Left side - Totals */}
               <div className="flex-1">
                 <div className="flex items-center space-x-4">
                   <div className="text-center">
@@ -106,7 +101,6 @@ export default function MobileStickyBar({ selectedItems, onViewQuote, onClearOrd
                 </div>
               </div>
 
-              {/* Right side - CTA Button */}
               <div className="flex-shrink-0 ml-4">
                 <button
                   onClick={onViewQuote}
