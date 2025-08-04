@@ -18,7 +18,13 @@ export const categories: Record<string, string> = {
 
 export const sweets: Sweet[] = [
   // Brigadeiros Tradicionais
-  { id: "1", name: "Beijinho", price: 3.0, category: "brigadeiros_tradicionais", image: "/images/sweets/beijinho.jpeg" },
+  {
+    id: "1",
+    name: "Beijinho",
+    price: 3.0,
+    category: "brigadeiros_tradicionais",
+    image: "/images/sweets/beijinho.jpeg",
+  },
   {
     id: "2",
     name: "Brigadeiro",
@@ -88,8 +94,20 @@ export const sweets: Sweet[] = [
     category: "brigadeiros_luxo",
     image: "/images/sweets/brigadeiro-trufado.jpeg",
   },
-  { id: "15", name: "Brigadeiro Brulee", price: 3.5, category: "brigadeiros_luxo", image: "/images/sweets/brigadeiro-brulee.jpeg" },
-  { id: "16", name: "Brigadeiro Ferrero", price: 4.2, category: "brigadeiros_luxo", image: "/images/sweets/brigadeiro-ferrero.jpeg" },
+  {
+    id: "15",
+    name: "Brigadeiro Brulee",
+    price: 3.5,
+    category: "brigadeiros_luxo",
+    image: "/images/sweets/brigadeiro-brulee.jpeg",
+  },
+  {
+    id: "16",
+    name: "Brigadeiro Ferrero",
+    price: 4.2,
+    category: "brigadeiros_luxo",
+    image: "/images/sweets/brigadeiro-ferrero.jpeg",
+  },
   {
     id: "17",
     name: "Kinder Bueno",
@@ -167,7 +185,7 @@ export const sweets: Sweet[] = [
     name: "Bombom de Morango",
     price: 6.8,
     category: "doces_finos_luxo",
-    image: "/images/sweets/bombom-morango.jpeg",
+    image: "/images/sweets/bombom-morango.jpg",
   },
   {
     id: "28",
@@ -203,7 +221,7 @@ export const sweets: Sweet[] = [
     name: "Caramelo salgado c/ pistache crocante",
     price: 5.0,
     category: "doces_finos_luxo",
-    image: "/images/sweets/caramelo-pistache.jpeg",
+    image: "/images/sweets/caramelo-salgado.jpeg",
   },
   {
     id: "34",
@@ -217,16 +235,22 @@ export const sweets: Sweet[] = [
     name: "Abacaxi perolado",
     price: 4.5,
     category: "doces_finos_luxo",
-    image: "/images/sweets/abacaxi-perolado.jpeg",
+    image: "/images/sweets/abacaxi-perolado.jpg",
   },
   {
     id: "60",
     name: "Camafeu de nozes",
     price: 4.5,
     category: "doces_finos_luxo",
-    image: "/images/sweets/camafeu-nozes.jpeg",
+    image: "/images/sweets/camafeu-nozes.jpg",
   },
-  { id: "61", name: "Cone de Melão", price: 5.5, category: "doces_finos_luxo", image: "/images/sweets/cone-melao.jpeg" },
+  {
+    id: "61",
+    name: "Cone de Melão",
+    price: 5.5,
+    category: "doces_finos_luxo",
+    image: "/images/sweets/cone-melao.jpeg",
+  },
   {
     id: "62",
     name: "Damasco Recheado",
@@ -289,7 +313,7 @@ export const sweets: Sweet[] = [
     name: "Moedinha de limão siciliano",
     price: 5.5,
     category: "doces_finos_luxo",
-    image: "/images/sweets/moedinha-limao.jpeg",
+    image: "/images/sweets/moedinha-limao.jpg",
   },
   {
     id: "72",
@@ -325,7 +349,7 @@ export const sweets: Sweet[] = [
     name: "Trouxinha de Coco",
     price: 4.5,
     category: "doces_finos_luxo",
-    image: "/images/sweets/trouxinha-coco.jpeg",
+    image: "/images/sweets/trouxinha-coco.jpg",
   },
 
   // Trufas e Bombons
@@ -345,7 +369,13 @@ export const sweets: Sweet[] = [
     image: "/images/sweets/trufa-pistache.jpeg",
   },
   { id: "38", name: "Trufa Mista", price: 4.5, category: "trufas_bombons", image: "/images/sweets/trufa-mista.jpeg" },
-  { id: "39", name: "Trufa de Limão", price: 4.5, category: "trufas_bombons", image: "/images/sweets/trufa-limao.jpeg" },
+  {
+    id: "39",
+    name: "Trufa de Limão",
+    price: 4.5,
+    category: "trufas_bombons",
+    image: "/images/sweets/trufa-limao.jpeg",
+  },
   {
     id: "40",
     name: "Trufa Tradicional",
@@ -367,7 +397,7 @@ export const sweets: Sweet[] = [
     name: "Colher de Brigadeiro Belga",
     price: 5.5,
     category: "doces_finos_decorativos",
-    image: "/images/sweets/colher-brigadeiro-belga.jpeg",
+    image: "/images/sweets/colher-brigadeiro-belga.jpg",
   },
   {
     id: "43",
