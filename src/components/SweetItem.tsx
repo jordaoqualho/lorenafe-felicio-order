@@ -191,7 +191,7 @@ export default function SweetItem({ sweet, quantity, onQuantityChange }: SweetIt
                   />
                 </svg>
               </div>
-              <p className="text-sm text-gray-500 font-medium">Imagem não disponível</p>
+              <p className="text-sm text-gray-500 font-medium">Em breve</p>
             </div>
           </div>
         </div>
@@ -233,7 +233,7 @@ export default function SweetItem({ sweet, quantity, onQuantityChange }: SweetIt
                   />
                 </svg>
               </div>
-              <p className="text-sm text-gray-500 font-medium">Imagem não disponível</p>
+              <p className="text-sm text-gray-500 font-medium">Em breve</p>
             </div>
           </div>
         )}

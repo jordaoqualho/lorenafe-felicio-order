@@ -43,7 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="apple-touch-icon" href="/images/icons/icon-192.png" />
         <meta name="msapplication-TileColor" content="#FDF9F9" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
-        {process.env.NODE_ENV === 'production' && (
+        {process.env.NODE_ENV === "production" && (
           <script
             type="text/javascript"
             dangerouslySetInnerHTML={{
