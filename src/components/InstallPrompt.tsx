@@ -30,7 +30,7 @@ export default function InstallPrompt({ onDismiss }: InstallPromptProps) {
 
       setIsMobile(isMobileDevice);
 
-      if (isIOS) {
+      if (true) {
         setPlatform("ios");
       } else if (isAndroid) {
         setPlatform("android");
@@ -93,8 +93,10 @@ export default function InstallPrompt({ onDismiss }: InstallPromptProps) {
       // Em desenvolvimento, tentar simular a instalação
       try {
         // Verificar se o navegador suporta PWA
-        if ('serviceWorker' in navigator) {
-          alert("Em desenvolvimento: Para instalar o PWA, use o menu do navegador ou aguarde o prompt nativo aparecer.");
+        if ("serviceWorker" in navigator) {
+          alert(
+            "Em desenvolvimento: Para instalar o PWA, use o menu do navegador ou aguarde o prompt nativo aparecer."
+          );
         } else {
           alert("Seu navegador não suporta PWA. Use Chrome ou Edge para testar.");
         }
@@ -135,7 +137,7 @@ export default function InstallPrompt({ onDismiss }: InstallPromptProps) {
                 </div>
                 <div>
                   <h3 className="font-bold text-gray-900 text-lg">Lorena Felicio</h3>
-                  <p className="text-sm text-gray-500">Confeitaria Artística</p>
+                  <p className="text-sm text-gray-500">Tabela de Doces</p>
                 </div>
               </div>
             </div>
@@ -218,7 +220,7 @@ export default function InstallPrompt({ onDismiss }: InstallPromptProps) {
               </div>
               <div>
                 <h3 className="font-bold text-gray-900 text-sm">Lorena Felicio</h3>
-                <p className="text-xs text-gray-500">Confeitaria Artística</p>
+                <p className="text-xs text-gray-500">Tabela de Doces</p>
               </div>
             </div>
           </div>

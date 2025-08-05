@@ -205,9 +205,9 @@ export default function QuoteSummary({ selectedItems, onClearOrder }: QuoteSumma
           placeholder="Selecione uma data"
           className="w-full px-3 py-2 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm md:text-base bg-white text-gray-900 placeholder-gray-400"
           style={{
-            WebkitAppearance: 'none',
-            MozAppearance: 'none',
-            appearance: 'none',
+            WebkitAppearance: "none",
+            MozAppearance: "none",
+            appearance: "none",
           }}
           aria-label="Data de entrega do pedido"
         />
