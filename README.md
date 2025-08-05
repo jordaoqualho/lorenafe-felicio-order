@@ -1,6 +1,6 @@
-# 🍬 Lorena Felício Confeitaria – Online Order System
+# 🍬 Lorena Felicio – Online Order System
 
-A modern, mobile-first order and quote system designed for Lorena Felício Confeitaria. This software is tailored for self-service by customers of my mother's real-world candy store, both in-person and online.
+A modern, mobile-first order and quote system designed for Lorena Felicio. This software is tailored for self-service by customers of my mother's real-world candy store, both in-person and online.
 
 ## About the System
 
@@ -85,7 +85,7 @@ src/
 
 ## License
 
-MIT. Free to use for other candy shops, but made with love for Lorena Felício Confeitaria.
+MIT. Free to use for other candy shops, but made with love for Lorena Felicio Confeitaria.
 
 ---
 
