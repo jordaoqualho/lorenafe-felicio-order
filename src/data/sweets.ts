@@ -36,7 +36,7 @@ export const sweets: Sweet[] = [
     name: "Bicho de pé",
     price: 3.5,
     category: "brigadeiros_tradicionais",
-    image: "/images/sweets/bicho-pe.jpeg",
+    // image: "/images/sweets/bicho-pe.jpeg",
   },
   { id: "4", name: "Brigadeiro de Café", price: 3.2, category: "brigadeiros_tradicionais" },
   {
@@ -72,11 +72,11 @@ export const sweets: Sweet[] = [
     name: "Flor napolitana",
     price: 3.5,
     category: "brigadeiros_tradicionais",
-    image: "/images/sweets/flor-napolitana.jpg",
+    image: "/images/sweets/flor-napolitana.jpeg",
   },
   { id: "11", name: "Brigadeiro de Ninho", price: 3.0, category: "brigadeiros_tradicionais" },
 
-  { id: "12", name: "Brigadeiro Belga", price: 4.2, category: "brigadeiros_luxo", image: "/images/sweets/brigadeiro-belga.jpg" },
+  { id: "12", name: "Brigadeiro Belga", price: 4.2, category: "brigadeiros_luxo", image: "/images/sweets/brigadeiro-belga.jpeg" },
   {
     id: "13",
     name: "Belga Amargo",
@@ -146,10 +146,10 @@ export const sweets: Sweet[] = [
 
   {
     id: "23",
-    name: "Brigadeiro crocante dourado",
+    name: "Bombom crocante dourado",
     price: 4.5,
     category: "doces_finos_luxo",
-    image: "/images/sweets/brigadeiro-dourado.jpg",
+    image: "/images/sweets/bombom-dourado.jpeg",
   },
   {
     id: "24",
@@ -212,7 +212,7 @@ export const sweets: Sweet[] = [
     name: "Caramelo salgado c/ pistache crocante",
     price: 5.0,
     category: "doces_finos_luxo",
-    image: "/images/sweets/caramelo-salgado.jpeg",
+    image: "/images/sweets/caramelo-salgado.jpg",
   },
   {
     id: "34",
@@ -254,7 +254,7 @@ export const sweets: Sweet[] = [
     name: "Delícia do Pará",
     price: 4.8,
     category: "doces_finos_luxo",
-    // image: "/images/sweets/delicia-para.jpeg",
+    image: "/images/sweets/delicia-para.jpeg",
   },
   {
     id: "64",
@@ -290,14 +290,14 @@ export const sweets: Sweet[] = [
     name: "Fudge de amêndoas",
     price: 5.5,
     category: "doces_finos_luxo",
-    image: "/images/sweets/fudge-avela.jpg",
+    image: "/images/sweets/fudge-amendoas.jpeg",
   },
   {
     id: "70",
     name: "Fudge de pistache e nozes",
     price: 5.5,
     category: "doces_finos_luxo",
-    // image: "/images/sweets/fudge-pistache-nozes.jpeg",
+    image: "/images/sweets/fudge-pistache.jpeg",
   },
   {
     id: "71",
@@ -358,7 +358,7 @@ export const sweets: Sweet[] = [
     price: 5.5,
     category: "trufas_bombons",
   },
-  { id: "38", name: "Trufa Mista", price: 4.5, category: "trufas_bombons", image: "/images/sweets/trufa-mista.jpeg" },
+  { id: "38", name: "Trufa Mista", price: 4.5, category: "trufas_bombons", image: "/images/sweets/trufa-mista.jpg" },
   {
     id: "39",
     name: "Trufa de Limão",
@@ -385,7 +385,7 @@ export const sweets: Sweet[] = [
     name: "Colher de Brigadeiro Belga",
     price: 5.5,
     category: "doces_finos_decorativos",
-    image: "/images/sweets/colher-brigadeiro.jpg",
+    image: "/images/sweets/colher-brigadeiro.webp",
   },
   {
     id: "43",
@@ -441,7 +441,7 @@ export const sweets: Sweet[] = [
     name: "Copinho com Nutella e Morango",
     price: 5.2,
     category: "copinhos",
-    image: "/images/sweets/copinho-morango.jpg",
+    image: "/images/sweets/copinho-morango.jpeg",
   },
   {
     id: "51",
@@ -463,13 +463,6 @@ export const sweets: Sweet[] = [
     price: 5.5,
     category: "copinhos",
     image: "/images/sweets/copinho-mirtilo.jpg",
-  },
-  {
-    id: "54",
-    name: "Copinho Puxa de Nozes",
-    price: 5.2,
-    category: "copinhos",
-    // image: "/images/sweets/copinho-puxa-nozes.jpeg",
   },
   { id: "78", name: "Puxa de Nuts", price: 5.5, category: "copinhos"},
 

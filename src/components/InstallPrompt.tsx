@@ -30,7 +30,7 @@ export default function InstallPrompt({ onDismiss }: InstallPromptProps) {
 
       setIsMobile(isMobileDevice);
 
-      if (true) {
+      if (isIOS) {
         setPlatform("ios");
       } else if (isAndroid) {
         setPlatform("android");
@@ -38,7 +38,6 @@ export default function InstallPrompt({ onDismiss }: InstallPromptProps) {
         setPlatform("desktop");
       }
 
-      // Verificar se é Chrome mobile (que suporta instalação direta)
       if (isMobileDevice && isChrome) {
         setIsChromeMobile(true);
       }
@@ -49,7 +48,6 @@ export default function InstallPrompt({ onDismiss }: InstallPromptProps) {
         return;
       }
 
-      // Mostrar prompt em desenvolvimento ou se há deferredPrompt
       if (isDev) {
         setTimeout(() => {
           setShowPrompt(true);
@@ -90,9 +88,7 @@ export default function InstallPrompt({ onDismiss }: InstallPromptProps) {
         setDeferredPrompt(null);
       }
     } else if (isDevelopment) {
-      // Em desenvolvimento, tentar simular a instalação
       try {
-        // Verificar se o navegador suporta PWA
         if ("serviceWorker" in navigator) {
           alert(
             "Em desenvolvimento: Para instalar o PWA, use o menu do navegador ou aguarde o prompt nativo aparecer."
@@ -118,7 +114,6 @@ export default function InstallPrompt({ onDismiss }: InstallPromptProps) {
 
   const effectivePrompt = deferredPrompt || isDevelopment;
 
-  // Desktop: Prompt no canto superior direito
   if (!isMobile) {
     return (
       <div className="fixed top-4 right-4 z-50 bg-white rounded-xl shadow-lg border border-primary-200 animate-slideUp max-w-md p-6">
@@ -202,7 +197,6 @@ export default function InstallPrompt({ onDismiss }: InstallPromptProps) {
     );
   }
 
-  // Mobile: Prompt na parte inferior
   return (
     <div className="fixed bottom-4 left-4 right-4 z-50 bg-white rounded-xl shadow-lg border border-primary-200 animate-slideUp p-4">
       <div className="flex items-start space-x-3">
@@ -232,7 +226,7 @@ export default function InstallPrompt({ onDismiss }: InstallPromptProps) {
             </p>
           </div>
 
-          {isChromeMobile && deferredPrompt ? (
+          {isMobile && deferredPrompt ? (
             <div className="space-y-2">
               <button
                 onClick={handleInstallClick}
