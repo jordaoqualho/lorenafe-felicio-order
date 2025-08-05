@@ -40,7 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Lorena Fe" />
-        <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" href="/images/icons/icon-192.png" />
         <meta name="msapplication-TileColor" content="#d97706" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
       </head>
