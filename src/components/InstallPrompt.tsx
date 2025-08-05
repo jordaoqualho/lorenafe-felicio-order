@@ -29,7 +29,7 @@ export default function InstallPrompt({ onDismiss }: InstallPromptProps) {
       const isSafari = /safari/.test(userAgent) && !/chrome/.test(userAgent);
 
       setIsMobile(isMobileDevice);
-      
+
       if (isIOS) {
         setPlatform("ios");
       } else if (isAndroid) {
@@ -90,7 +90,17 @@ export default function InstallPrompt({ onDismiss }: InstallPromptProps) {
         setDeferredPrompt(null);
       }
     } else if (isDevelopment) {
-      alert("Em desenvolvimento: Simulação de instalação bem-sucedida!");
+      // Em desenvolvimento, tentar simular a instalação
+      try {
+        // Verificar se o navegador suporta PWA
+        if ('serviceWorker' in navigator) {
+          alert("Em desenvolvimento: Para instalar o PWA, use o menu do navegador ou aguarde o prompt nativo aparecer.");
+        } else {
+          alert("Seu navegador não suporta PWA. Use Chrome ou Edge para testar.");
+        }
+      } catch (error) {
+        alert("Erro ao tentar instalar. Use o menu do navegador para instalar o PWA.");
+      }
       setShowPrompt(false);
     }
   };
