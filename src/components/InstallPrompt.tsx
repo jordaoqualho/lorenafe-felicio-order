@@ -1,57 +1,62 @@
 "use client";
 
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
-interface BeforeInstallPromptEvent extends Event {
-  prompt(): Promise<void>;
-  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
+interface InstallPromptProps {
+  onDismiss?: () => void;
 }
 
-export default function InstallPrompt() {
-  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+export default function InstallPrompt({ onDismiss }: InstallPromptProps) {
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [showPrompt, setShowPrompt] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isDevelopment, setIsDevelopment] = useState(false);
   const [dismissed, setDismissed] = useState(false);
-
-  const checkPWASupport = () => {
-    const isSupported = "serviceWorker" in navigator && "PushManager" in window;
-    return isSupported;
-  };
+  const [showInstructions, setShowInstructions] = useState(false);
+  const [platform, setPlatform] = useState<"ios" | "android" | "desktop">("desktop");
 
   useEffect(() => {
-    const checkDismissed = () => {
-      const wasDismissed = localStorage.getItem("pwa-dismissed") === "true";
-      setDismissed(wasDismissed);
-    };
-
-    const checkMobile = () => {
-      const userAgent = navigator.userAgent.toLowerCase();
-      const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
-      const isStandalone = window.matchMedia("(display-mode: standalone)").matches;
-      setIsMobile(isMobileDevice && !isStandalone);
-    };
-
-    const checkDevelopment = () => {
-      const isDev = process.env.NODE_ENV === "development" || window.location.hostname === "localhost";
+    const checkPWASupport = () => {
+      const isDev = process.env.NODE_ENV === "development";
       setIsDevelopment(isDev);
-    };
 
-    checkDismissed();
-    checkMobile();
-    checkDevelopment();
+      const userAgent = navigator.userAgent.toLowerCase();
+      const isIOS = /iphone|ipad|ipod/.test(userAgent);
+      const isAndroid = /android/.test(userAgent);
+      const isMobileDevice = /mobile|android|iphone|ipad/.test(userAgent);
 
-    const handleBeforeInstallPrompt = (e: Event) => {
-      // e.preventDefault();
-      setDeferredPrompt(e as BeforeInstallPromptEvent);
-      setShowPrompt(true);
-    };
-
-    const checkExistingPrompt = () => {
-      if (isDevelopment && !deferredPrompt) {
-        setShowPrompt(true);
+      setIsMobile(isMobileDevice);
+      
+      if (isIOS) {
+        setPlatform("ios");
+      } else if (isAndroid) {
+        setPlatform("android");
+      } else {
+        setPlatform("desktop");
       }
+
+      const dismissedPrompt = localStorage.getItem("pwa-prompt-dismissed");
+      if (dismissedPrompt) {
+        setDismissed(true);
+        return;
+      }
+
+      if (isDev) {
+        setTimeout(() => {
+          setShowPrompt(true);
+        }, 3000);
+      }
+    };
+
+    checkPWASupport();
+  }, []);
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowPrompt(true);
     };
 
     const handleAppInstalled = () => {
@@ -61,111 +66,161 @@ export default function InstallPrompt() {
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     window.addEventListener("appinstalled", handleAppInstalled);
-    window.addEventListener("resize", checkMobile);
-
-    const timer = setTimeout(() => {
-      if (isDevelopment && !showPrompt && !deferredPrompt && !dismissed) {
-        setShowPrompt(true);
-        checkExistingPrompt();
-      }
-    }, 3000);
-
-    if (isDevelopment && !dismissed) {
-      setTimeout(() => {
-        if (!showPrompt) {
-          setShowPrompt(true);
-        }
-      }, 1000);
-    }
-
-    // Log para debug
-
-    if (!dismissed) {
-      checkExistingPrompt();
-    }
 
     return () => {
       window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
       window.removeEventListener("appinstalled", handleAppInstalled);
-      window.removeEventListener("resize", checkMobile);
-      clearTimeout(timer);
     };
-  }, [isMobile, showPrompt, deferredPrompt, isDevelopment, dismissed]);
+  }, []);
 
   const handleInstallClick = async () => {
     if (deferredPrompt) {
-      try {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-
-        if (outcome === "accepted") {
-          setShowPrompt(false);
-          setDeferredPrompt(null);
-        }
-      } catch (error) {
-        console.error("Error during install prompt:", error);
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === "accepted") {
+        setShowPrompt(false);
+        setDeferredPrompt(null);
       }
     } else if (isDevelopment) {
-
-      if (checkPWASupport()) {
-
-        try {
-
-          const fakeEvent = new Event("beforeinstallprompt");
-          window.dispatchEvent(fakeEvent);
-
-
-          if ("getInstalledRelatedApps" in navigator) {
-          }
-
-
-          setTimeout(() => {
-            if (!deferredPrompt) {
-              alert(
-                "Para testar a instalação PWA:\n\n1. Use Chrome/Edge\n2. Acesse via HTTPS (localhost funciona)\n3. Ou clique em 'Adicionar à tela inicial' no menu do navegador\n\nO prompt real aparecerá automaticamente quando o navegador detectar que o app pode ser instalado."
-              );
-            }
-          }, 2000);
-        } catch (error) {
-          console.error("Error trying to trigger prompt:", error);
-          alert("Erro ao tentar abrir prompt. Use o menu do navegador para instalar.");
-        }
-      } else {
-        alert("Seu navegador não suporta PWA. Use Chrome ou Edge para testar.");
-      }
-    } else {
-      alert("Instalação não disponível no momento. Tente novamente mais tarde.");
+      alert("Em desenvolvimento: Simulação de instalação bem-sucedida!");
+      setShowPrompt(false);
     }
   };
 
   const handleDismiss = () => {
     setShowPrompt(false);
-    setDeferredPrompt(null);
     setDismissed(true);
-    localStorage.setItem("pwa-dismissed", "true");
+    localStorage.setItem("pwa-prompt-dismissed", "true");
+    if (onDismiss) onDismiss();
   };
 
-  const handleTestPrompt = () => {
-    setShowPrompt(true);
+  const handleShowInstructions = () => {
+    setShowInstructions(true);
   };
 
-  if (!showPrompt || dismissed) {
-    if (isDevelopment && !dismissed) {
+  const handleCloseInstructions = () => {
+    setShowInstructions(false);
+  };
+
+  if (dismissed || !showPrompt) return null;
+
+  const renderInstructions = () => {
+    if (platform === "ios") {
       return (
-        <div className="fixed top-4 right-4 z-50">
-          <button
-            onClick={handleTestPrompt}
-            className="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-2 rounded-lg shadow-md"
-          >
-            Testar Prompt PWA
-          </button>
+        <div className="space-y-4">
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <h4 className="font-semibold text-blue-800 mb-2">📱 Como instalar no iPhone:</h4>
+            <ol className="text-sm text-blue-700 space-y-2">
+              <li className="flex items-start space-x-2">
+                <span className="bg-blue-200 text-blue-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">1</span>
+                <span>Toque no ícone <strong>Compartilhar</strong> (📤) na barra de navegação</span>
+              </li>
+              <li className="flex items-start space-x-2">
+                <span className="bg-blue-200 text-blue-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">2</span>
+                <span>Role para baixo e toque em <strong>"Adicionar à Tela Inicial"</strong></span>
+              </li>
+              <li className="flex items-start space-x-2">
+                <span className="bg-blue-200 text-blue-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">3</span>
+                <span>Toque em <strong>"Adicionar"</strong> para confirmar</span>
+              </li>
+            </ol>
+          </div>
+          <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <p className="text-sm text-gray-600">
+              <strong>💡 Dica:</strong> O app aparecerá na sua tela inicial como um ícone normal e funcionará offline!
+            </p>
+          </div>
+        </div>
+      );
+    } else if (platform === "android") {
+      return (
+        <div className="space-y-4">
+          <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+            <h4 className="font-semibold text-green-800 mb-2">📱 Como instalar no Android:</h4>
+            <ol className="text-sm text-green-700 space-y-2">
+              <li className="flex items-start space-x-2">
+                <span className="bg-green-200 text-green-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">1</span>
+                <span>Toque no ícone <strong>Menu</strong> (⋮) no canto superior direito</span>
+              </li>
+              <li className="flex items-start space-x-2">
+                <span className="bg-green-200 text-green-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">2</span>
+                <span>Toque em <strong>"Adicionar à tela inicial"</strong> ou <strong>"Instalar app"</strong></span>
+              </li>
+              <li className="flex items-start space-x-2">
+                <span className="bg-green-200 text-green-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">3</span>
+                <span>Toque em <strong>"Adicionar"</strong> para confirmar</span>
+              </li>
+            </ol>
+          </div>
+          <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <p className="text-sm text-gray-600">
+              <strong>💡 Dica:</strong> O app será instalado como um app nativo e funcionará offline!
+            </p>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div className="space-y-4">
+          <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+            <h4 className="font-semibold text-purple-800 mb-2">💻 Como instalar no Desktop:</h4>
+            <ol className="text-sm text-purple-700 space-y-2">
+              <li className="flex items-start space-x-2">
+                <span className="bg-purple-200 text-purple-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">1</span>
+                <span>Procure pelo ícone <strong>Instalar</strong> (⬇️) na barra de endereços</span>
+              </li>
+              <li className="flex items-start space-x-2">
+                <span className="bg-purple-200 text-purple-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">2</span>
+                <span>Toque em <strong>"Instalar"</strong> quando aparecer</span>
+              </li>
+              <li className="flex items-start space-x-2">
+                <span className="bg-purple-200 text-purple-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">3</span>
+                <span>O app será adicionado ao seu computador</span>
+              </li>
+            </ol>
+          </div>
+          <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <p className="text-sm text-gray-600">
+              <strong>💡 Dica:</strong> O app funcionará como um programa normal do seu computador!
+            </p>
+          </div>
         </div>
       );
     }
-    return null;
+  };
+
+  if (showInstructions) {
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-xl shadow-lg max-w-md w-full max-h-[80vh] overflow-y-auto">
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-bold text-gray-900">Como instalar o app</h3>
+              <button
+                onClick={handleCloseInstructions}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            {renderInstructions()}
+            <div className="mt-6">
+              <button
+                onClick={handleCloseInstructions}
+                className="w-full bg-primary-600 text-white font-medium py-3 px-4 rounded-lg hover:bg-primary-700 transition-colors"
+              >
+                Entendi!
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
-  const effectivePrompt = deferredPrompt || (isDevelopment ? ({} as BeforeInstallPromptEvent) : null);
+  const effectivePrompt = deferredPrompt || isDevelopment;
 
   return (
     <div
@@ -179,7 +234,7 @@ export default function InstallPrompt() {
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-beige-600 rounded-full flex items-center justify-center">
                 <Image
-                  src="/images/icons/icon-192.png"
+                  src="/images/icon-192.png"
                   alt="Lorena Felicio"
                   className="w-full h-full"
                   width={40}
@@ -253,14 +308,25 @@ export default function InstallPrompt() {
               )}
               <span>{isMobile ? "Instalar" : "Instalar Agora"}</span>
             </button>
-            <button
-              onClick={handleDismiss}
-              className={`text-gray-500 hover:text-gray-700 transition-colors duration-200 underline text-center ${
-                isMobile ? "text-xs" : "text-sm "
-              }`}
-            >
-              {isMobile ? "Agora não" : "Continuar no navegador"}
-            </button>
+            
+            <div className="flex space-x-2">
+              <button
+                onClick={handleShowInstructions}
+                className={`text-primary-600 hover:text-primary-700 transition-colors duration-200 underline text-center ${
+                  isMobile ? "text-xs" : "text-sm"
+                }`}
+              >
+                Como instalar?
+              </button>
+              <button
+                onClick={handleDismiss}
+                className={`text-gray-500 hover:text-gray-700 transition-colors duration-200 underline text-center ${
+                  isMobile ? "text-xs" : "text-sm"
+                }`}
+              >
+                {isMobile ? "Agora não" : "Continuar no navegador"}
+              </button>
+            </div>
           </div>
         </div>
       </div>
