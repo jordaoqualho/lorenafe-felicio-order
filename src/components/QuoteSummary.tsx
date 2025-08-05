@@ -108,8 +108,8 @@ export default function QuoteSummary({ selectedItems, onClearOrder }: QuoteSumma
   return (
     <div className="bg-beige-50 border border-beige-200 rounded-xl p-4 md:p-6 space-y-4 md:space-y-6 animate-slideUp">
       {showClearConfirm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg p-6 max-w-sm w-full shadow-xl">
+        <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg p-6 max-w-sm w-full shadow-xl border border-gray-200">
             <div className="flex items-center mb-4">
               <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
                 <svg
