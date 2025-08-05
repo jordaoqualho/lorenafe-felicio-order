@@ -197,14 +197,27 @@ export default function QuoteSummary({ selectedItems, onClearOrder }: QuoteSumma
         <label htmlFor="deliveryDate" className="block text-sm font-medium text-gray-700">
           Data do evento/entrega (opcional):
         </label>
-        <input
-          type="date"
-          id="deliveryDate"
-          value={deliveryDate}
-          onChange={(e) => setDeliveryDate(e.target.value)}
-          className="w-full px-3 py-2 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm md:text-base"
-          aria-label="Data de entrega do pedido"
-        />
+        <div className="relative">
+          <input
+            type="date"
+            id="deliveryDate"
+            value={deliveryDate}
+            onChange={(e) => setDeliveryDate(e.target.value)}
+            placeholder="Selecione uma data"
+            className="w-full px-3 py-2 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm md:text-base bg-white text-gray-900 placeholder-gray-400 appearance-none relative"
+            style={{
+              WebkitAppearance: 'none',
+              MozAppearance: 'none',
+              appearance: 'none',
+            }}
+            aria-label="Data de entrega do pedido"
+          />
+          {!deliveryDate && (
+            <div className="absolute inset-0 flex items-center px-3 pointer-events-none">
+              <span className="text-gray-400 text-sm md:text-base">Selecione uma data</span>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="space-y-2 md:space-y-3 pt-4">

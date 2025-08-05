@@ -11,6 +11,56 @@
   body {
     @apply bg-white text-gray-800;
   }
+
+  input[type="date"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: white;
+    color: #111827;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 16px;
+    line-height: 1.5;
+    min-height: 44px;
+  }
+
+  input[type="date"]::-webkit-datetime-edit {
+    color: #111827;
+  }
+
+  input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+    color: #9ca3af;
+  }
+
+  input[type="date"]::-webkit-datetime-edit-text {
+    color: #9ca3af;
+  }
+
+  input[type="date"]::-webkit-datetime-edit-month-field,
+  input[type="date"]::-webkit-datetime-edit-day-field,
+  input[type="date"]::-webkit-datetime-edit-year-field {
+    color: #111827;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    background-color: transparent;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+  }
+
+  input[type="date"]:focus {
+    outline: none;
+    border-color: #d97706;
+    box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
+  }
+
+  input[type="date"]:invalid {
+    color: #9ca3af;
+  }
 }
 
 @layer components {
