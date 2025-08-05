@@ -16,6 +16,7 @@ This PWA was created to make it easy for customers to choose, quote, and send or
 ## Main Features
 
 ### 🛒 Ordering System
+
 - Fast search by sweet name with real-time filtering
 - Category filters (Brigadeiros, Finos, Copinhos, etc.)
 - Quantity selection with tap or quick input
@@ -27,6 +28,7 @@ This PWA was created to make it easy for customers to choose, quote, and send or
 - Accessibility and improved contrast for all users
 
 ### 📱 Progressive Web App (PWA)
+
 - **Native app installation** on mobile and desktop
 - **Offline functionality** with service worker caching
 - **App-like experience** with splash screen and icons
@@ -35,6 +37,7 @@ This PWA was created to make it easy for customers to choose, quote, and send or
 - **Push notification ready** infrastructure
 
 ### 🖼️ Visual Enhancements
+
 - **High-quality product images** for each sweet
 - **Skeleton loading states** for smooth image loading
 - **Error handling** for missing images
@@ -42,6 +45,7 @@ This PWA was created to make it easy for customers to choose, quote, and send or
 - **Modern UI/UX** with smooth animations and transitions
 
 ### 📊 Analytics & Performance
+
 - **Microsoft Clarity integration** for user behavior analytics
 - **Production-only analytics** to avoid development noise
 - **Performance monitoring** and optimization
@@ -50,6 +54,7 @@ This PWA was created to make it easy for customers to choose, quote, and send or
 ## How to Use
 
 ### For Customers
+
 1. **Choose your sweets**: Browse categories or use the search
 2. **Select quantities**: Tap + and – or edit quickly
 3. **See your summary**: The order appears on the side (desktop) or in the sticky bar (mobile)
@@ -57,6 +62,7 @@ This PWA was created to make it easy for customers to choose, quote, and send or
 5. **Send your order**: Click "Send to WhatsApp" to finish
 
 ### For Store Owners
+
 1. **Install the PWA**: Click the install prompt on mobile or use browser menu on desktop
 2. **Access offline**: The app works without internet connection
 3. **Monitor analytics**: View user behavior and popular items through Microsoft Clarity
@@ -75,6 +81,7 @@ This PWA was created to make it easy for customers to choose, quote, and send or
 ## Installation & Usage
 
 ### Development
+
 1. Clone the repository:
    ```bash
    git clone https://github.com/jordaoqualho/lorenafe-felicio-order.git
@@ -91,6 +98,7 @@ This PWA was created to make it easy for customers to choose, quote, and send or
 4. Open [http://localhost:3000](http://localhost:3000)
 
 ### Production
+
 1. Build the application:
    ```bash
    npm run build
@@ -129,16 +137,19 @@ public/
 ## PWA Features
 
 ### Installation
+
 - **Desktop**: Native browser install prompt or menu option
 - **Mobile**: Platform-specific installation instructions
 - **Development**: Test installation with development prompts
 
 ### Offline Capabilities
+
 - **Service Worker**: Caches essential resources
 - **Offline-first**: Works without internet connection
 - **Background sync**: Updates when connection restored
 
 ### Analytics
+
 - **Microsoft Clarity**: User behavior tracking
 - **Production-only**: No analytics in development
 - **Privacy-compliant**: Respects user preferences
@@ -146,17 +157,28 @@ public/
 ## Customization
 
 ### Content Management
+
 - **Add/edit sweets**: Edit `src/data/sweets.ts`
 - **Change prices/categories**: Same file
 - **Update images**: Add to `public/images/sweets/`
 - **Modify PWA settings**: Edit `public/manifest.json`
 
+### Updating Images and Cache Management
+
+- **Replace images**: Simply replace files in `public/images/sweets/`
+- **Force cache update**: Increment `CACHE_NAME` in `public/sw.js` (e.g., "lorenafe-v2" → "lorenafe-v3")
+- **Alternative method**: Uncomment and modify `getImageUrl()` function in `src/data/sweets.ts`
+- **Cache headers**: Configured in `next.config.js` to prevent aggressive caching
+- **Service worker**: Automatically updates images with network-first strategy
+
 ### Styling & Branding
+
 - **Colors and branding**: Edit `tailwind.config.js`
 - **PWA icons**: Replace files in `public/images/icons/`
 - **Theme colors**: Update in `src/app/layout.tsx`
 
 ### Analytics Configuration
+
 - **Microsoft Clarity**: Update project ID in `src/app/layout.tsx`
 - **Custom events**: Add tracking in components
 
@@ -182,4 +204,4 @@ MIT. Free to use for other candy shops, but made with love for Lorena Felicio Co
 
 **Made to make life easier for customers and for my mother, the candy maker!** 🍬
 
-*Built with modern web technologies and PWA best practices for the best user experience.*
+_Built with modern web technologies and PWA best practices for the best user experience._

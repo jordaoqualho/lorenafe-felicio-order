@@ -16,6 +16,16 @@ export const categories: Record<string, string> = {
   lembrancas: "Lembranças",
 };
 
+// Função helper para adicionar versão às URLs quando necessário
+// Para forçar atualização de cache, incremente IMAGE_VERSION
+const IMAGE_VERSION = "1"; // Incremente este número quando atualizar imagens
+const getImageUrl = (path: string) => {
+  if (!path) return undefined;
+  // Por enquanto retorna o path original, mas pode ser facilmente modificado
+  return path;
+  // Para forçar atualização: return `${path}?v=${IMAGE_VERSION}`;
+};
+
 export const sweets: Sweet[] = [
   {
     id: "1",
@@ -33,10 +43,10 @@ export const sweets: Sweet[] = [
   },
   {
     id: "3",
-    name: "Bicho de pé",
+    name: "Brigadeiro de Morango",
     price: 3.5,
     category: "brigadeiros_tradicionais",
-    // image: "/images/sweets/bicho-pe.jpeg",
+    image: "/images/sweets/brigadeiro-morango.jpeg",
   },
   { id: "4", name: "Brigadeiro de Café", price: 3.2, category: "brigadeiros_tradicionais" },
   {
@@ -52,7 +62,13 @@ export const sweets: Sweet[] = [
     category: "brigadeiros_tradicionais",
     // image: "/images/sweets/casadinho.jpeg",
   },
-  { id: "7", name: "Brigadeiro de Churros", price: 3.0, category: "brigadeiros_tradicionais", image: "/images/sweets/brigadeiro-churros.jpg" },
+  {
+    id: "7",
+    name: "Brigadeiro de Churros",
+    price: 3.0,
+    category: "brigadeiros_tradicionais",
+    image: "/images/sweets/brigadeiro-churros.jpg",
+  },
   {
     id: "8",
     name: "Coco queimado",
@@ -76,7 +92,13 @@ export const sweets: Sweet[] = [
   },
   { id: "11", name: "Brigadeiro de Ninho", price: 3.0, category: "brigadeiros_tradicionais" },
 
-  { id: "12", name: "Brigadeiro Belga", price: 4.2, category: "brigadeiros_luxo", image: "/images/sweets/brigadeiro-belga.jpeg" },
+  {
+    id: "12",
+    name: "Brigadeiro Belga",
+    price: 4.2,
+    category: "brigadeiros_luxo",
+    image: "/images/sweets/brigadeiro-belga.jpeg",
+  },
   {
     id: "13",
     name: "Belga Amargo",
@@ -312,7 +334,6 @@ export const sweets: Sweet[] = [
     price: 6.5,
     category: "doces_finos_luxo",
     image: "/images/sweets/ninho-fios-ovos.jpg",
-
   },
   {
     id: "73",
@@ -385,7 +406,7 @@ export const sweets: Sweet[] = [
     name: "Colher de Brigadeiro Belga",
     price: 5.5,
     category: "doces_finos_decorativos",
-    image: "/images/sweets/colher-brigadeiro.webp",
+    image: "/images/sweets/colher-brigadeiro.jpg",
   },
   {
     id: "43",
@@ -441,14 +462,14 @@ export const sweets: Sweet[] = [
     name: "Copinho com Nutella e Morango",
     price: 5.2,
     category: "copinhos",
-    image: "/images/sweets/copinho-morango.jpeg",
+    image: "/images/sweets/copinho-morango.jpg",
   },
   {
     id: "51",
     name: "Copinho de Nutella com Cereja",
     price: 4.8,
     category: "copinhos",
-    // image: "/images/sweets/copinho-nutella-cereja.jpeg",
+    image: "/images/sweets/copinho-nutella.jpg",
   },
   {
     id: "52",
@@ -464,7 +485,7 @@ export const sweets: Sweet[] = [
     category: "copinhos",
     image: "/images/sweets/copinho-mirtilo.jpg",
   },
-  { id: "78", name: "Puxa de Nuts", price: 5.5, category: "copinhos"},
+  { id: "78", name: "Puxa de Nuts", price: 5.5, category: "copinhos" },
 
   { id: "55", name: "Alfajor", price: 7.5, category: "lembrancas" },
   { id: "56", name: "Bem Casado", price: 7.5, category: "lembrancas", image: "/images/sweets/bem-casado.jpeg" },

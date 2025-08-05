@@ -123,7 +123,7 @@ export default function InstallPrompt({ onDismiss }: InstallPromptProps) {
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-beige-600 rounded-full flex items-center justify-center">
                   <Image
-                    src="/images/icon-192.png"
+                    src="/images/icons/icon-192.png"
                     alt="Lorena Felicio"
                     className="w-full h-full"
                     width={40}
@@ -205,7 +205,7 @@ export default function InstallPrompt({ onDismiss }: InstallPromptProps) {
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-beige-600 rounded-full flex items-center justify-center">
                 <Image
-                  src="/images/icon-192.png"
+                  src="/images/icons/icon-192.png"
                   alt="Lorena Felicio"
                   className="w-full h-full"
                   width={40}
