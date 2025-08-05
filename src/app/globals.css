@@ -24,6 +24,7 @@
     font-size: 16px;
     line-height: 1.5;
     min-height: 44px;
+    position: relative;
   }
 
   input[type="date"]::-webkit-datetime-edit {
@@ -59,6 +60,24 @@
   }
 
   input[type="date"]:invalid {
+    color: #9ca3af;
+  }
+
+  input[type="date"]:not([value])::-webkit-datetime-edit {
+    color: #9ca3af;
+  }
+
+  input[type="date"]:not([value])::-webkit-datetime-edit-fields-wrapper {
+    color: #9ca3af;
+  }
+
+  input[type="date"]:not([value])::-webkit-datetime-edit-text {
+    color: #9ca3af;
+  }
+
+  input[type="date"]:not([value])::-webkit-datetime-edit-month-field,
+  input[type="date"]:not([value])::-webkit-datetime-edit-day-field,
+  input[type="date"]:not([value])::-webkit-datetime-edit-year-field {
     color: #9ca3af;
   }
 }
