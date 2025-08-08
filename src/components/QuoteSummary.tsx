@@ -11,14 +11,70 @@ interface SelectedItem {
 interface QuoteSummaryProps {
   selectedItems: SelectedItem[];
   onClearOrder?: () => void;
+  onQuantityChange?: (id: string, quantity: number) => void;
 }
 
-export default function QuoteSummary({ selectedItems, onClearOrder }: QuoteSummaryProps) {
+export default function QuoteSummary({ selectedItems, onClearOrder, onQuantityChange }: QuoteSummaryProps) {
   const [deliveryDate, setDeliveryDate] = useState("");
   const [copySuccess, setCopySuccess] = useState(false);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
+  const [editingItem, setEditingItem] = useState<SelectedItem | null>(null);
+  const [editQuantity, setEditQuantity] = useState("");
 
   const total = selectedItems.reduce((sum, item) => sum + item.sweet.price * item.quantity, 0);
+
+  const handleQuantityChange = (id: string, newQuantity: number) => {
+    if (onQuantityChange) {
+      onQuantityChange(id, newQuantity);
+    }
+  };
+
+  const handleRemoveItem = (id: string) => {
+    if (onQuantityChange) {
+      onQuantityChange(id, 0);
+    }
+  };
+
+  const handleEditItem = (item: SelectedItem) => {
+    setEditingItem(item);
+    setEditQuantity(item.quantity.toString());
+  };
+
+  const handleSaveEdit = () => {
+    if (editingItem && editQuantity) {
+      const newQuantity = Math.max(0, parseInt(editQuantity) || 0);
+      handleQuantityChange(editingItem.sweet.id, newQuantity);
+    }
+    setEditingItem(null);
+    setEditQuantity("");
+  };
+
+  const handleCancelEdit = () => {
+    setEditingItem(null);
+    setEditQuantity("");
+  };
+
+  const handleRemoveFromModal = () => {
+    if (editingItem) {
+      handleRemoveItem(editingItem.sweet.id);
+    }
+    setEditingItem(null);
+    setEditQuantity("");
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleSaveEdit();
+    } else if (e.key === "Escape") {
+      handleCancelEdit();
+    }
+  };
+
+  const handleModalClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      handleCancelEdit();
+    }
+  };
 
   const generateWhatsAppMessage = () => {
     if (selectedItems.length === 0) return "";
@@ -107,6 +163,77 @@ export default function QuoteSummary({ selectedItems, onClearOrder }: QuoteSumma
 
   return (
     <div className="bg-beige-50 border border-beige-200 rounded-xl p-4 md:p-6 space-y-4 md:space-y-6 animate-slideUp">
+      {/* Modal de edição */}
+      {editingItem && (
+        <div
+          className="fixed inset-0 flex items-center justify-center z-50 p-4 animate-fadeIn"
+          onClick={handleModalClick}
+        >
+          <div className="bg-white rounded-xl p-6 max-w-sm w-full shadow-xl border border-gray-200 animate-slideUp">
+            <div className="text-center mb-6">
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">{editingItem.sweet.name}</h3>
+              <div className="flex items-center justify-center space-x-2 text-sm text-gray-600">
+                <span>Preço unitário:</span>
+                <span className="font-semibold text-primary-600">
+                  R$ {editingItem.sweet.price.toFixed(2).replace(".", ",")}
+                </span>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <div>
+                <label htmlFor="editQuantity" className="block text-sm font-medium text-gray-700 mb-3">
+                  Quantidade:
+                </label>
+                <input
+                  id="editQuantity"
+                  type="number"
+                  min="0"
+                  value={editQuantity}
+                  onChange={(e) => setEditQuantity(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-center text-xl font-semibold transition-all duration-200"
+                  autoFocus
+                />
+              </div>
+
+              {/* Valor total atualizado */}
+              <div className="bg-gradient-to-r from-primary-50 to-beige-50 rounded-lg p-4 text-center border border-primary-100">
+                <div className="text-sm text-gray-600 mb-1">Valor total:</div>
+                <div className="text-2xl font-bold text-primary-600 animate-bounce-subtle">
+                  R$ {((parseInt(editQuantity) || 0) * editingItem.sweet.price).toFixed(2).replace(".", ",")}
+                </div>
+              </div>
+
+              {/* Botões organizados */}
+              <div className="space-y-3">
+                <button
+                  onClick={handleSaveEdit}
+                  className="w-full px-4 py-3 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-lg transition-all duration-200 text-base shadow-sm hover:shadow-md"
+                >
+                  Salvar Alterações
+                </button>
+
+                <div className="flex space-x-3">
+                  <button
+                    onClick={handleRemoveFromModal}
+                    className="flex-1 px-4 py-3 bg-red-500 hover:bg-red-600 text-white font-medium rounded-lg transition-all duration-200 text-sm shadow-sm hover:shadow-md"
+                  >
+                    Remover Item
+                  </button>
+                  <button
+                    onClick={handleCancelEdit}
+                    className="flex-1 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium rounded-lg transition-all duration-200 text-sm shadow-sm hover:shadow-md"
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {showClearConfirm && (
         <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg p-6 max-w-sm w-full shadow-xl border border-gray-200">
@@ -163,24 +290,37 @@ export default function QuoteSummary({ selectedItems, onClearOrder }: QuoteSumma
 
       <div className="space-y-2 md:space-y-3 max-h-64 md:max-h-80 overflow-y-auto">
         {selectedItems.map((item) => (
-          <div
+          <button
             key={item.sweet.id}
-            className="flex justify-between items-center py-2 px-3 rounded-lg border-b border-beige-200 last:border-b-0 hover:bg-white/50 transition-all duration-200"
+            onClick={() => handleEditItem(item)}
+            className="w-full text-left flex justify-between items-center py-3 px-3 rounded-lg border-b border-beige-200 last:border-b-0 hover:bg-white/50 active:bg-white/70 transition-all duration-200 cursor-pointer group"
+            title="Clique para editar quantidade"
           >
             <div className="flex-1 min-w-0">
-              <div className="font-medium text-gray-800 text-sm md:text-base truncate">{item.sweet.name}</div>
+              <div className="font-medium text-gray-800 text-sm md:text-base truncate group-hover:text-primary-600 transition-colors">
+                {item.sweet.name}
+              </div>
               <div className="text-xs text-gray-600 flex items-center space-x-2">
                 <span>Qtd: {item.quantity}</span>
                 <span>•</span>
                 <span>R$ {item.sweet.price.toFixed(2).replace(".", ",")}</span>
               </div>
             </div>
-            <div className="flex-shrink-0 ml-2">
+
+            <div className="flex-shrink-0 ml-2 flex items-center">
               <span className="font-semibold text-gray-800 text-sm md:text-base">
                 R$ {(item.sweet.price * item.quantity).toFixed(2).replace(".", ",")}
               </span>
+              <svg
+                className="w-4 h-4 text-gray-400 ml-2 group-hover:text-primary-500 transition-colors"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </div>
-          </div>
+          </button>
         ))}
       </div>
 

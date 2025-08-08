@@ -251,7 +251,11 @@ export default function Home() {
 
           <div className="lg:col-span-1">
             <div className="sticky top-6" ref={quoteSummaryRef}>
-              <QuoteSummary selectedItems={selectedItems} onClearOrder={handleClearOrder} />
+              <QuoteSummary
+                selectedItems={selectedItems}
+                onClearOrder={handleClearOrder}
+                onQuantityChange={handleQuantityChange}
+              />
             </div>
           </div>
         </div>
