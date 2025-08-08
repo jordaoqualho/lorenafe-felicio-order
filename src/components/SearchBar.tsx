@@ -24,6 +24,11 @@ export default function SearchBar({
 
   const categoryKeys = Object.keys(categories);
 
+  const handleCategoryChange = (category: string) => {
+    onCategoryChange(category);
+    setIsExpanded(false); // Fecha o filtro quando uma categoria é selecionada
+  };
+
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-6 space-y-4">
       <div className="relative">
@@ -100,7 +105,7 @@ export default function SearchBar({
         <div className="space-y-2 border-t border-gray-100 pt-4">
           <div className="flex flex-wrap gap-2">
             <button
-              onClick={() => onCategoryChange("")}
+              onClick={() => handleCategoryChange("")}
               className={`px-3 py-2 rounded-full text-sm font-medium transition-colors ${
                 selectedCategory === "" ? "bg-primary-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
@@ -110,7 +115,7 @@ export default function SearchBar({
             {categoryKeys.map((key) => (
               <button
                 key={key}
-                onClick={() => onCategoryChange(key)}
+                onClick={() => handleCategoryChange(key)}
                 className={`px-3 py-2 rounded-full text-sm font-medium transition-colors ${
                   selectedCategory === key ? "bg-primary-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
