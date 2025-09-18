@@ -55,15 +55,15 @@ describe("QuoteSummary", () => {
     // Find the custom date picker input
     const dateInput = screen.getByText("Selecione uma data");
     fireEvent.click(dateInput);
-    
+
     // Select any available date
-    const dayButtons = screen.getAllByRole("button").filter(button => 
-      button.textContent && /^\d+$/.test(button.textContent) && !button.disabled
-    );
-    
+    const dayButtons = screen
+      .getAllByRole("button")
+      .filter((button) => button.textContent && /^\d+$/.test(button.textContent) && !button.disabled);
+
     if (dayButtons.length > 0) {
       fireEvent.click(dayButtons[0]);
-      
+
       // Check if a date is displayed (format may vary due to timezone)
       expect(screen.getByText(/\d{2}\/\d{2}\/\d{4}/)).toBeInTheDocument();
     }
