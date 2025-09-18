@@ -83,7 +83,7 @@ export default function Home() {
       }
 
       saveTimeoutRef.current = setTimeout(() => {
-        setTimeout(() => {}, 2000);
+        // Debounce completed
       }, 500);
     } catch (error) {
       console.warn("Erro ao salvar pedido:", error);
@@ -91,13 +91,26 @@ export default function Home() {
   }, [quantities, deliveryDate, isLoaded]);
 
   const handleQuantityChange = (id: string, quantity: number) => {
+    // Validate quantity to prevent negative values or extremely large numbers
+    const validQuantity = Math.max(0, Math.min(quantity, 999));
     setQuantities((prev) => ({
       ...prev,
-      [id]: quantity,
+      [id]: validQuantity,
     }));
   };
 
   const handleDeliveryDateChange = (date: string) => {
+    // Validate date to prevent past dates
+    if (date) {
+      const selectedDate = new Date(date);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Reset time to start of day
+      
+      if (selectedDate < today) {
+        console.warn("Data de entrega não pode ser no passado");
+        return;
+      }
+    }
     setDeliveryDate(date);
   };
 

@@ -78,7 +78,7 @@ export default function QuoteSummary({ selectedItems, onClearOrder, onQuantityCh
 
   const formatDateForMessage = (dateString: string) => {
     // Parse the date string (YYYY-MM-DD) and create a local date
-    const [year, month, day] = dateString.split('-').map(Number);
+    const [year, month, day] = dateString.split("-").map(Number);
     const date = new Date(year, month - 1, day); // month is 0-indexed
     return date.toLocaleDateString("pt-BR");
   };
@@ -97,9 +97,7 @@ export default function QuoteSummary({ selectedItems, onClearOrder, onQuantityCh
 
     const totalQuantity = selectedItems.reduce((sum, item) => sum + item.quantity, 0);
     const totalValue = total.toFixed(2).replace(".", ",");
-    const dateText = deliveryDate
-      ? `Data do evento/entrega: ${formatDateForMessage(deliveryDate)}`
-      : "";
+    const dateText = deliveryDate ? `Data do evento/entrega: ${formatDateForMessage(deliveryDate)}` : "";
 
     return (
       `Olá! Segue o orçamento do meu pedido:\n\n` +
@@ -349,6 +347,7 @@ export default function QuoteSummary({ selectedItems, onClearOrder, onQuantityCh
           id="deliveryDate"
           value={deliveryDate}
           onChange={(e) => setDeliveryDate(e.target.value)}
+          min={new Date().toISOString().split('T')[0]} // Prevent past dates
           placeholder="Selecione uma data"
           className="w-full px-3 py-2 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm md:text-base bg-white text-gray-900 placeholder-gray-400"
           style={{
