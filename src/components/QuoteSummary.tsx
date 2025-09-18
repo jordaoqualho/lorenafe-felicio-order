@@ -76,6 +76,13 @@ export default function QuoteSummary({ selectedItems, onClearOrder, onQuantityCh
     }
   };
 
+  const formatDateForMessage = (dateString: string) => {
+    // Parse the date string (YYYY-MM-DD) and create a local date
+    const [year, month, day] = dateString.split('-').map(Number);
+    const date = new Date(year, month - 1, day); // month is 0-indexed
+    return date.toLocaleDateString("pt-BR");
+  };
+
   const generateWhatsAppMessage = () => {
     if (selectedItems.length === 0) return "";
 
@@ -91,7 +98,7 @@ export default function QuoteSummary({ selectedItems, onClearOrder, onQuantityCh
     const totalQuantity = selectedItems.reduce((sum, item) => sum + item.quantity, 0);
     const totalValue = total.toFixed(2).replace(".", ",");
     const dateText = deliveryDate
-      ? `Data do evento/entrega: ${new Date(deliveryDate).toLocaleDateString("pt-BR")}`
+      ? `Data do evento/entrega: ${formatDateForMessage(deliveryDate)}`
       : "";
 
     return (

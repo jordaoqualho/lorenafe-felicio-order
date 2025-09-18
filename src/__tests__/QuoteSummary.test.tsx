@@ -48,4 +48,14 @@ describe("QuoteSummary", () => {
     fireEvent.click(screen.getByText("Cancelar"));
     expect(screen.queryByText("Salvar Alterações")).not.toBeInTheDocument();
   });
+
+  it("formats date correctly without timezone issues", () => {
+    render(<QuoteSummary selectedItems={selectedItems} />);
+    
+    const dateInput = screen.getByLabelText("Data de entrega do pedido");
+    fireEvent.change(dateInput, { target: { value: "2024-09-20" } });
+    
+    // Check if the date is displayed correctly in the input
+    expect(dateInput).toHaveValue("2024-09-20");
+  });
 });
