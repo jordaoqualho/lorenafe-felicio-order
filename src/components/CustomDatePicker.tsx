@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface CustomDatePickerProps {
   value: string;
@@ -21,17 +21,25 @@ export default function CustomDatePicker({
 }: CustomDatePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState<Date | null>(
-    value ? new Date(value) : null
-  );
+  const [selectedDate, setSelectedDate] = useState<Date | null>(value ? new Date(value) : null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const today = new Date();
   const minDateObj = minDate ? new Date(minDate) : today;
 
   const monthNames = [
-    "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro",
   ];
 
   const dayNames = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
@@ -62,16 +70,16 @@ export default function CustomDatePicker({
 
   const handleDateSelect = (date: Date) => {
     if (date < minDateObj) return;
-    
+
     setSelectedDate(date);
-    onChange(date.toISOString().split('T')[0]);
+    onChange(date.toISOString().split("T")[0]);
     setIsOpen(false);
   };
 
-  const navigateMonth = (direction: 'prev' | 'next') => {
-    setCurrentMonth(prev => {
+  const navigateMonth = (direction: "prev" | "next") => {
+    setCurrentMonth((prev) => {
       const newMonth = new Date(prev);
-      if (direction === 'prev') {
+      if (direction === "prev") {
         newMonth.setMonth(prev.getMonth() - 1);
       } else {
         newMonth.setMonth(prev.getMonth() + 1);
@@ -103,17 +111,17 @@ export default function CustomDatePicker({
     const startingDayOfWeek = firstDay.getDay();
 
     const days = [];
-    
+
     // Add empty cells for days before the first day of the month
     for (let i = 0; i < startingDayOfWeek; i++) {
       days.push(null);
     }
-    
+
     // Add days of the month
     for (let day = 1; day <= daysInMonth; day++) {
       days.push(new Date(year, month, day));
     }
-    
+
     return days;
   };
 
@@ -121,7 +129,7 @@ export default function CustomDatePicker({
     return date.toLocaleDateString("pt-BR", {
       day: "2-digit",
       month: "2-digit",
-      year: "numeric"
+      year: "numeric",
     });
   };
 
@@ -130,29 +138,29 @@ export default function CustomDatePicker({
   };
 
   const isDateSelected = (date: Date) => {
-    return selectedDate && 
-           date.getDate() === selectedDate.getDate() &&
-           date.getMonth() === selectedDate.getMonth() &&
-           date.getFullYear() === selectedDate.getFullYear();
+    return (
+      selectedDate &&
+      date.getDate() === selectedDate.getDate() &&
+      date.getMonth() === selectedDate.getMonth() &&
+      date.getFullYear() === selectedDate.getFullYear()
+    );
   };
 
   const isToday = (date: Date) => {
     const today = new Date();
-    return date.getDate() === today.getDate() &&
-           date.getMonth() === today.getMonth() &&
-           date.getFullYear() === today.getFullYear();
+    return (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    );
   };
 
   const days = getDaysInMonth(currentMonth);
 
   return (
     <div ref={containerRef} className={`relative ${className}`}>
-      {label && (
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          {label}
-        </label>
-      )}
-      
+      {label && <label className="block text-sm font-medium text-gray-700 mb-2">{label}</label>}
+
       {/* Input Field */}
       <div
         onClick={() => setIsOpen(!isOpen)}
@@ -162,19 +170,12 @@ export default function CustomDatePicker({
           {selectedDate ? formatDisplayDate(selectedDate) : placeholder}
         </span>
         <svg
-          className={`w-5 h-5 text-gray-400 transition-transform duration-200 ${
-            isOpen ? "rotate-180" : ""
-          }`}
+          className={`w-5 h-5 text-gray-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 9l-7 7-7-7"
-          />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </div>
 
@@ -184,7 +185,7 @@ export default function CustomDatePicker({
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-gray-200">
             <button
-              onClick={() => navigateMonth('prev')}
+              onClick={() => navigateMonth("prev")}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200"
               aria-label="Mês anterior"
             >
@@ -192,13 +193,13 @@ export default function CustomDatePicker({
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
-            
+
             <h3 className="text-lg font-semibold text-gray-800">
               {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
             </h3>
-            
+
             <button
-              onClick={() => navigateMonth('next')}
+              onClick={() => navigateMonth("next")}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200"
               aria-label="Próximo mês"
             >
@@ -211,10 +212,7 @@ export default function CustomDatePicker({
           {/* Days of Week */}
           <div className="grid grid-cols-7 gap-1 p-2">
             {dayNames.map((day) => (
-              <div
-                key={day}
-                className="text-center text-xs font-medium text-gray-500 py-2"
-              >
+              <div key={day} className="text-center text-xs font-medium text-gray-500 py-2">
                 {day}
               </div>
             ))}
@@ -238,13 +236,14 @@ export default function CustomDatePicker({
                   disabled={disabled}
                   className={`
                     h-8 w-8 text-sm rounded-lg transition-all duration-200 flex items-center justify-center
-                    ${disabled 
-                      ? "text-gray-300 cursor-not-allowed" 
-                      : selected
+                    ${
+                      disabled
+                        ? "text-gray-300 cursor-not-allowed"
+                        : selected
                         ? "bg-primary-500 text-white font-semibold shadow-md"
                         : today
-                          ? "bg-primary-100 text-primary-700 font-medium border border-primary-300"
-                          : "text-gray-700 hover:bg-primary-50 hover:text-primary-700"
+                        ? "bg-primary-100 text-primary-700 font-medium border border-primary-300"
+                        : "text-gray-700 hover:bg-primary-50 hover:text-primary-700"
                     }
                     ${!disabled && !selected && !today ? "hover:scale-105" : ""}
                   `}
