@@ -105,7 +105,7 @@ export default function Home() {
       const selectedDate = new Date(date);
       const today = new Date();
       today.setHours(0, 0, 0, 0); // Reset time to start of day
-      
+
       if (selectedDate < today) {
         console.warn("Data de entrega não pode ser no passado");
         return;

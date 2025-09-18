@@ -2,6 +2,7 @@
 
 import { Sweet } from "@/data/sweets";
 import { useState } from "react";
+import CustomDatePicker from "./CustomDatePicker";
 
 interface SelectedItem {
   sweet: Sweet;
@@ -339,23 +340,13 @@ export default function QuoteSummary({ selectedItems, onClearOrder, onQuantityCh
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="deliveryDate" className="block text-sm font-medium text-gray-700">
-          Data do evento/entrega (opcional):
-        </label>
-        <input
-          type="date"
-          id="deliveryDate"
+        <CustomDatePicker
           value={deliveryDate}
-          onChange={(e) => setDeliveryDate(e.target.value)}
-          min={new Date().toISOString().split('T')[0]} // Prevent past dates
+          onChange={setDeliveryDate}
+          label="Data do evento/entrega (opcional):"
           placeholder="Selecione uma data"
-          className="w-full px-3 py-2 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm md:text-base bg-white text-gray-900 placeholder-gray-400"
-          style={{
-            WebkitAppearance: "none",
-            MozAppearance: "none",
-            appearance: "none",
-          }}
-          aria-label="Data de entrega do pedido"
+          minDate={new Date().toISOString().split("T")[0]}
+          className="w-full"
         />
       </div>
 
