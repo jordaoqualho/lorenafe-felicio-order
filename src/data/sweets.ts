@@ -110,6 +110,7 @@ export const sweets: Sweet[] = [
     name: "Brigadeiro Trufado",
     price: 4.2,
     category: "brigadeiros_luxo",
+    image: "/images/sweets/brigadeiro-trufado.jpeg",
   },
   {
     id: "15",
@@ -136,6 +137,7 @@ export const sweets: Sweet[] = [
     name: "Limão Siciliano e Coco",
     price: 3.5,
     category: "brigadeiros_luxo",
+    image: "/images/sweets/limao-siciliano-coco.jpeg",
   },
   {
     id: "19",
@@ -215,7 +217,7 @@ export const sweets: Sweet[] = [
     category: "doces_finos_luxo",
     image: "/images/sweets/bombom-nozes.jpeg",
   },
-  { id: "30", name: "Bombom Uva", price: 4.5, category: "doces_finos_luxo" },
+  { id: "30", name: "Bombom de Uva", price: 4.5, category: "doces_finos_luxo", image: "/images/sweets/bombom-uva.jpeg" },
   {
     id: "31",
     name: "Uva c/ sucrilhos",
@@ -349,8 +351,8 @@ export const sweets: Sweet[] = [
     category: "doces_finos_luxo",
     image: "/images/sweets/ouriço-coco.jpeg",
   },
-  { id: "75", name: "Raffaello", price: 6.5, category: "doces_finos_luxo" },
-  {
+  { id: "75", name: "Raffaello", price: 6.5, category: "doces_finos_luxo", image: "/images/sweets/raffaello.jpeg" },
+  { 
     id: "76",
     name: "Sushi de Damasco",
     price: 6.5,
