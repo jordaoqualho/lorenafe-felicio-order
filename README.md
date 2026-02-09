@@ -122,8 +122,10 @@ src/
 │   ├── QuoteSummary.tsx    # Order summary and WhatsApp
 │   ├── SearchBar.tsx       # Search and filter functionality
 │   └── SweetItem.tsx       # Individual sweet card with images
-└── data/
-    └── sweets.ts           # Sweets list and categories
+├── data/
+│   └── sweets.ts           # Sweets list and categories
+└── utils/
+    └── imageCache.ts       # Image cache busting utility
 
 public/
 ├── manifest.json           # PWA manifest
@@ -165,11 +167,13 @@ public/
 
 ### Updating Images and Cache Management
 
-- **Replace images**: Simply replace files in `public/images/sweets/`
-- **Force cache update**: Increment `CACHE_NAME` in `public/sw.js` (e.g., "lorenafe-v2" → "lorenafe-v3")
-- **Alternative method**: Uncomment and modify `getImageUrl()` function in `src/data/sweets.ts`
+- **Replace images**: Simply replace files in `public/images/sweets/` maintaining the same filename
+- **Force cache update**: Increment `IMAGE_VERSION` in `src/utils/imageCache.ts` (e.g., "2" → "3")
+  - This automatically adds a query parameter (`?v=3`) to all image URLs, forcing browsers to fetch fresh versions
+  - All images in `src/data/sweets.ts` are automatically processed through `getImageUrl()`
 - **Cache headers**: Configured in `next.config.js` to prevent aggressive caching
 - **Service worker**: Automatically updates images with network-first strategy
+- **How it works**: The `getImageUrl()` utility function adds a version query parameter to image paths, ensuring browsers ignore cached versions when images are updated
 
 ### Styling & Branding
 
