@@ -281,7 +281,7 @@ export default function SweetItem({ sweet, quantity, onQuantityChange }: SweetIt
                 handleKeyPress(e);
                 resetInactivityTimer();
               }}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-center text-lg"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:outline-none text-center text-lg"
               autoFocus
               aria-label={`Editar quantidade de ${sweet.name}`}
             />
