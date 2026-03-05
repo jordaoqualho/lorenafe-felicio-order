@@ -6,8 +6,8 @@ import QuoteSummary from "@/components/QuoteSummary";
 import SearchBar from "@/components/SearchBar";
 import SweetItem from "@/components/SweetItem";
 import { categories, sweets } from "@/data/sweets";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 
 const STORAGE_KEY = "lorena-felicio-order";
 
@@ -37,8 +37,24 @@ function ScrollToTopButton() {
   );
 }
 
-export default function Home() {
+function HomePageFallback() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-beige-50 to-primary-50 flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-pulse rounded-full h-10 w-10 bg-primary-200 mx-auto mb-4" />
+        <p className="text-gray-500 text-sm">Carregando...</p>
+      </div>
+    </div>
+  );
+}
+
+const SEARCH_PARAM_CATEGORIA = "categoria";
+const SEARCH_PARAM_BUSCA = "busca";
+
+function Home() {
   const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -46,17 +62,32 @@ export default function Home() {
   const [deliveryDate, setDeliveryDate] = useState("");
   const quoteSummaryRef = useRef<HTMLDivElement>(null);
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const appliedUrlCategoryRef = useRef(false);
+  const appliedUrlRef = useRef(false);
 
-  // Abre a categoria indicada na URL ao carregar (ex: ?categoria=pascoa)
+  // Initial state from URL (single source of truth on load)
   useEffect(() => {
-    if (appliedUrlCategoryRef.current) return;
-    const categoryFromUrl = searchParams.get("categoria");
+    if (appliedUrlRef.current) return;
+    const categoryFromUrl = searchParams.get(SEARCH_PARAM_CATEGORIA);
+    const buscaFromUrl = searchParams.get(SEARCH_PARAM_BUSCA) ?? "";
     if (categoryFromUrl && Object.prototype.hasOwnProperty.call(categories, categoryFromUrl)) {
       setSelectedCategory(categoryFromUrl);
-      appliedUrlCategoryRef.current = true;
     }
+    if (buscaFromUrl) {
+      setSearchTerm(buscaFromUrl);
+    }
+    appliedUrlRef.current = true;
   }, [searchParams]);
+
+  // Keep URL in sync when user changes category or search
+  useEffect(() => {
+    if (!appliedUrlRef.current) return;
+    const params = new URLSearchParams();
+    if (selectedCategory) params.set(SEARCH_PARAM_CATEGORIA, selectedCategory);
+    if (searchTerm.trim()) params.set(SEARCH_PARAM_BUSCA, searchTerm.trim());
+    const query = params.toString();
+    const url = query ? `${pathname}?${query}` : pathname;
+    router.replace(url, { scroll: false });
+  }, [pathname, router, selectedCategory, searchTerm]);
 
   useEffect(() => {
     try {
@@ -232,8 +263,18 @@ export default function Home() {
                     />
                   </svg>
                 </div>
-                <p className="text-gray-500 text-lg">Nenhum doce encontrado</p>
-                <p className="text-gray-400 text-sm mt-2">Tente ajustar sua busca ou filtros</p>
+                <p className="text-gray-500 text-lg">Nenhum doce encontrado com esses filtros.</p>
+                <p className="text-gray-400 text-sm mt-2">Remover filtros para ver todos os doces?</p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedCategory("");
+                    setSearchTerm("");
+                  }}
+                  className="mt-4 px-4 py-2 text-sm font-medium text-primary-600 bg-primary-50 border border-primary-200 rounded-lg hover:bg-primary-100 hover:border-primary-300 transition-colors"
+                >
+                  Remover filtros
+                </button>
               </div>
             ) : showGrouped ? (
               <div className="space-y-8">
@@ -293,7 +334,7 @@ export default function Home() {
         <p className="text-xs text-gray-400">
           Desenvolvido por{" "}
           <a
-            href="https://www.linkedin.com/in/jordao-silva/"
+            href="https://www.linkedin.com/in/jordao-qualho/"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-primary-500 transition-colors duration-200 underline"
@@ -305,5 +346,13 @@ export default function Home() {
       <MobileStickyBar selectedItems={selectedItems} onViewQuote={handleViewQuote} onClearOrder={handleClearOrder} />
       <InstallPrompt />
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<HomePageFallback />}>
+      <Home />
+    </Suspense>
   );
 }
