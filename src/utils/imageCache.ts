@@ -12,13 +12,17 @@
  */
 
 /**
- * Image version number. Increment this value whenever you update image files
- * on the server to force browsers to fetch the new versions.
- * 
- * Format: Increment by 1 for each image update batch
- * Example: "1" -> "2" -> "3"
+ * Image version for cache busting. Browsers and CDNs will fetch a new image
+ * when this value changes. Set NEXT_PUBLIC_IMAGE_VERSION in your build (e.g.
+ * to Vercel's VERCEL_GIT_COMMIT_SHA or a build timestamp) so each deploy
+ * serves updated images; otherwise increment IMAGE_VERSION manually when
+ * replacing image files.
  */
-export const IMAGE_VERSION = "2203";
+export const IMAGE_VERSION =
+  typeof process.env.NEXT_PUBLIC_IMAGE_VERSION === "string" &&
+  process.env.NEXT_PUBLIC_IMAGE_VERSION.length > 0
+    ? process.env.NEXT_PUBLIC_IMAGE_VERSION
+    : Math.random().toString(36).substring(2, 15);
 
 /**
  * Adds cache busting query parameter to image URLs
