@@ -6,6 +6,7 @@ import QuoteSummary from "@/components/QuoteSummary";
 import SearchBar from "@/components/SearchBar";
 import SweetItem from "@/components/SweetItem";
 import { categories, sweets } from "@/data/sweets";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 const STORAGE_KEY = "lorena-felicio-order";
@@ -37,6 +38,7 @@ function ScrollToTopButton() {
 }
 
 export default function Home() {
+  const searchParams = useSearchParams();
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -44,6 +46,17 @@ export default function Home() {
   const [deliveryDate, setDeliveryDate] = useState("");
   const quoteSummaryRef = useRef<HTMLDivElement>(null);
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const appliedUrlCategoryRef = useRef(false);
+
+  // Abre a categoria indicada na URL ao carregar (ex: ?categoria=pascoa)
+  useEffect(() => {
+    if (appliedUrlCategoryRef.current) return;
+    const categoryFromUrl = searchParams.get("categoria");
+    if (categoryFromUrl && Object.prototype.hasOwnProperty.call(categories, categoryFromUrl)) {
+      setSelectedCategory(categoryFromUrl);
+      appliedUrlCategoryRef.current = true;
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     try {

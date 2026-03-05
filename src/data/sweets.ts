@@ -14,6 +14,7 @@ export const categories: Record<string, string> = {
   doces_finos_decorativos: "Doces Finos Decorativos",
   copinhos: "Copinhos",
   lembrancas: "Lembranças",
+  pascoa: "Páscoa",
 };
 
 import { getImageUrl } from "@/utils/imageCache";
@@ -502,9 +503,20 @@ export const sweets: Sweet[] = [
     category: "doces_finos_decorativos",
     image: getImageUrl("/images/sweets/pirulito-ninho.jpg"),
   },
-  { id: "78", name: "Puxa de Nuts", price: 5.5, category: "copinhos" },
-  { id: "55", name: "Alfajor", price: 7.5, category: "lembrancas" },
-  { id: "56", name: "Bem Casado", price: 7.5, category: "lembrancas", image: getImageUrl("/images/sweets/bem-casado.jpeg") },
-  { id: "57", name: "Cake Pop", price: 12.0, category: "lembrancas" },
-  { id: "58", name: "Pão de Mel", price: 7.5, category: "lembrancas" },
+  { id: "56", name: "Alfajor", price: 7.5, category: "lembrancas" },
+  { id: "57", name: "Bem Casado", price: 7.5, category: "lembrancas", image: getImageUrl("/images/sweets/bem-casado.jpeg") },
+  { id: "58", name: "Cake Pop", price: 12.0, category: "lembrancas" },
+  { id: "59", name: "Pão de Mel", price: 7.5, category: "lembrancas" },
+  { id: "60", name: "Puxa de Nuts", price: 5.5, category: "copinhos" },
+  { id: "61", name: "Ovo de Colher Dois Amores", price: 120.0, category: "pascoa", image: getImageUrl("/images/sweets/ovo-pascoa-dois-amores.jpg") },
+  { id: "62", name: "Casca Recheada Trufada Maracujá", price: 80.0, category: "pascoa", image: getImageUrl("/images/sweets/casca-recheada-trufa-maracujá.jpg") },
+  { id: "63", name: "Casca Recheada Caramelo Salgado e Pistache", price: 80.0, category: "pascoa", image: getImageUrl("/images/sweets/casca-recheada-caramelo-salgado.jpg") },
+  { id: "64", name: "Casca Recheada Cookies e Nutella", price: 80.0, category: "pascoa", image: getImageUrl("/images/sweets/casca-recheada-cookies.jpg") },
+  { id: "65", name: "Casca Recheada Brigadeiríssimo", price: 80.0, category: "pascoa", image: getImageUrl("/images/sweets/casca-recheada-brigadeiro.jpg") },
+  { id: "66", name: "Ovo de Colher de Brigadeiro", price: 120.0, category: "pascoa", image: getImageUrl("/images/sweets/ovo-colher-brigadeiro.jpg") },
+  { id: "67", name: "Ovo de Colher de Ninho", price: 120.0, category: "pascoa", image: getImageUrl("/images/sweets/ovo-colher-ninho.jpg") },
+  { id: "68", name: "Ovo de Colher de Pistache", price: 150.0, category: "pascoa", image: getImageUrl("/images/sweets/ovo-colher-pistache.jpg") },
+  { id: "69", name: "Ovo de Colher de Explosão de Nutella", price: 150.0, category: "pascoa", image: getImageUrl("/images/sweets/ovo-colher-explosao-nutella.jpg") },
+  { id: "70", name: "Ovo de Colher de Ferrero", price: 150.0, category: "pascoa", image: getImageUrl("/images/sweets/ovo-colher-ferrero.jpg") },
+  { id: "71", name: "Ovo de Colher de Coco", price: 120.0, category: "pascoa", image: getImageUrl("/images/sweets/ovo-colher-coco.jpg") },
 ];
