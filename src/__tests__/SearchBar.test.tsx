@@ -17,28 +17,29 @@ function setup(props?: Partial<React.ComponentProps<typeof SearchBar>>) {
 describe("SearchBar", () => {
   it("toggles filter panel open/close", () => {
     setup();
-    const toggleButton = screen.getByText("Filtrar por categoria");
+    const toggleButton = screen.getByRole("button", { name: /Filtrar por categoria/ });
 
     fireEvent.click(toggleButton);
-    expect(screen.getByText("Todos")).toBeInTheDocument();
+    expect(toggleButton).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByText("Categorias")).toBeInTheDocument();
 
     fireEvent.click(toggleButton);
-    expect(screen.queryByText("Todos")).not.toBeInTheDocument();
+    expect(toggleButton).toHaveAttribute("aria-expanded", "false");
   });
 
   it("closes filter when a category is selected", () => {
     const onCategoryChange = jest.fn();
     setup({ onCategoryChange });
 
-    const toggleButton = screen.getByText("Filtrar por categoria");
+    const toggleButton = screen.getByRole("button", { name: /Filtrar por categoria/ });
     fireEvent.click(toggleButton);
 
     const firstCategoryKey = Object.keys(categories)[0];
     const firstCategoryLabel = categories[firstCategoryKey];
 
-    fireEvent.click(screen.getByText(firstCategoryLabel));
+    fireEvent.click(screen.getByRole("button", { name: firstCategoryLabel }));
     expect(onCategoryChange).toHaveBeenCalledWith(firstCategoryKey);
-    expect(screen.queryByText("Todos")).not.toBeInTheDocument();
+    expect(toggleButton).toHaveAttribute("aria-expanded", "false");
   });
 
   it("clears search input when clear button is clicked", () => {
@@ -62,11 +63,10 @@ describe("SearchBar", () => {
     const selectedKey = Object.keys(categories)[1];
     setup({ selectedCategory: selectedKey });
 
-    // expand filter so the buttons render
-    fireEvent.click(screen.getByText("Filtrar por categoria"));
+    fireEvent.click(screen.getByRole("button", { name: /Filtrar por categoria/ }));
 
     const label = categories[selectedKey];
-    const button = screen.getByText(label);
-    expect(button.className).toMatch(/bg-primary-500/);
+    const chipButton = screen.getByRole("button", { name: label });
+    expect(chipButton.className).toMatch(/bg-primary-500/);
   });
 });
