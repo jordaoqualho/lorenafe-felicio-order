@@ -17,9 +17,13 @@ export const categories: Record<string, string> = {
   pascoa: "Páscoa",
 };
 
-import { SHOW_PASCOA_AND_CATEGORY_UI } from "@/config/seasonal";
+import { SHOW_PASCOA_SWEETS } from "@/config/seasonal";
 import { getImageUrl } from "@/utils/imageCache";
 import { v5 as uuidv5 } from "uuid";
+
+export const categoriesForFilter: Record<string, string> = SHOW_PASCOA_SWEETS
+  ? categories
+  : Object.fromEntries(Object.entries(categories).filter(([k]) => k !== "pascoa"));
 
 const SWEETS_NAMESPACE = "6ba7b810-9dad-11d1-80b4-00c04fd430c8";
 
@@ -463,6 +467,6 @@ const sweetsAll: Sweet[] = sweetsRaw.map((s, i) => ({
   id: uuidv5(`${s.name}|${s.category}|${i}`, SWEETS_NAMESPACE),
 }));
 
-export const sweets: Sweet[] = SHOW_PASCOA_AND_CATEGORY_UI
+export const sweets: Sweet[] = SHOW_PASCOA_SWEETS
   ? sweetsAll
   : sweetsAll.filter((s) => s.category !== "pascoa");

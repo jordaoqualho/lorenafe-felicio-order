@@ -1,5 +1,5 @@
 import SearchBar from "@/components/SearchBar";
-import { categories } from "@/data/sweets";
+import { categoriesForFilter } from "@/data/sweets";
 import { fireEvent, render, screen } from "@testing-library/react";
 
 function setup(props?: Partial<React.ComponentProps<typeof SearchBar>>) {
@@ -34,8 +34,8 @@ describe("SearchBar", () => {
     const toggleButton = screen.getByRole("button", { name: /Filtrar por categoria/ });
     fireEvent.click(toggleButton);
 
-    const firstCategoryKey = Object.keys(categories)[0];
-    const firstCategoryLabel = categories[firstCategoryKey];
+    const firstCategoryKey = Object.keys(categoriesForFilter)[0];
+    const firstCategoryLabel = categoriesForFilter[firstCategoryKey];
 
     fireEvent.click(screen.getByRole("button", { name: firstCategoryLabel }));
     expect(onCategoryChange).toHaveBeenCalledWith(firstCategoryKey);
@@ -60,12 +60,12 @@ describe("SearchBar", () => {
   });
 
   it("highlights selected category", () => {
-    const selectedKey = Object.keys(categories)[1];
+    const selectedKey = Object.keys(categoriesForFilter)[1];
     setup({ selectedCategory: selectedKey });
 
     fireEvent.click(screen.getByRole("button", { name: /Filtrar por categoria/ }));
 
-    const label = categories[selectedKey];
+    const label = categoriesForFilter[selectedKey];
     const chipButton = screen.getByRole("button", { name: label });
     expect(chipButton.className).toMatch(/bg-primary-500/);
   });
