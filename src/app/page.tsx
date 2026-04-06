@@ -5,6 +5,7 @@ import MobileStickyBar from "@/components/MobileStickyBar";
 import QuoteSummary from "@/components/QuoteSummary";
 import SearchBar from "@/components/SearchBar";
 import SweetItem from "@/components/SweetItem";
+import { SHOW_PASCOA_AND_CATEGORY_UI } from "@/config/seasonal";
 import { categories, sweets } from "@/data/sweets";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
@@ -69,7 +70,11 @@ function Home() {
     if (appliedUrlRef.current) return;
     const categoryFromUrl = searchParams.get(SEARCH_PARAM_CATEGORIA);
     const buscaFromUrl = searchParams.get(SEARCH_PARAM_BUSCA) ?? "";
-    if (categoryFromUrl && Object.prototype.hasOwnProperty.call(categories, categoryFromUrl)) {
+    if (
+      SHOW_PASCOA_AND_CATEGORY_UI &&
+      categoryFromUrl &&
+      Object.prototype.hasOwnProperty.call(categories, categoryFromUrl)
+    ) {
       setSelectedCategory(categoryFromUrl);
     }
     if (buscaFromUrl) {
@@ -82,7 +87,7 @@ function Home() {
   useEffect(() => {
     if (!appliedUrlRef.current) return;
     const params = new URLSearchParams();
-    if (selectedCategory) params.set(SEARCH_PARAM_CATEGORIA, selectedCategory);
+    if (SHOW_PASCOA_AND_CATEGORY_UI && selectedCategory) params.set(SEARCH_PARAM_CATEGORIA, selectedCategory);
     if (searchTerm.trim()) params.set(SEARCH_PARAM_BUSCA, searchTerm.trim());
     const query = params.toString();
     const url = query ? `${pathname}?${query}` : pathname;
@@ -204,7 +209,8 @@ function Home() {
   };
 
   const categoryKeys = Object.keys(groupedSweets);
-  const showGrouped = selectedCategory === "" && searchTerm === "";
+  const showGrouped =
+    SHOW_PASCOA_AND_CATEGORY_UI && selectedCategory === "" && searchTerm === "";
 
   if (!isLoaded) {
     return (
@@ -241,6 +247,7 @@ function Home() {
                 onCategoryChange={setSelectedCategory}
                 totalSweets={sweets.length}
                 filteredCount={filteredSweets.length}
+                showCategoryFilter={SHOW_PASCOA_AND_CATEGORY_UI}
               />
             </div>
 

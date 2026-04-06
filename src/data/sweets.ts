@@ -17,6 +17,7 @@ export const categories: Record<string, string> = {
   pascoa: "Páscoa",
 };
 
+import { SHOW_PASCOA_AND_CATEGORY_UI } from "@/config/seasonal";
 import { getImageUrl } from "@/utils/imageCache";
 import { v5 as uuidv5 } from "uuid";
 
@@ -457,7 +458,11 @@ const sweetsRaw: Omit<Sweet, "id">[] = [
   { name: "Ovo de Colher de Coco", price: 120.0, category: "pascoa", image: getImageUrl("/images/sweets/ovo-colher-coco.jpg") },
 ];
 
-export const sweets: Sweet[] = sweetsRaw.map((s, i) => ({
+const sweetsAll: Sweet[] = sweetsRaw.map((s, i) => ({
   ...s,
   id: uuidv5(`${s.name}|${s.category}|${i}`, SWEETS_NAMESPACE),
 }));
+
+export const sweets: Sweet[] = SHOW_PASCOA_AND_CATEGORY_UI
+  ? sweetsAll
+  : sweetsAll.filter((s) => s.category !== "pascoa");

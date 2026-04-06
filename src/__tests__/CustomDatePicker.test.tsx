@@ -28,7 +28,7 @@ describe("CustomDatePicker", () => {
     fireEvent.click(input);
 
     // Check if calendar is open by looking for month/year header
-    expect(screen.getByText(/2024|2025/)).toBeInTheDocument();
+    expect(screen.getByText(/20\d{2}/)).toBeInTheDocument();
   });
 
   it("closes calendar when clicking outside", async () => {
@@ -43,13 +43,13 @@ describe("CustomDatePicker", () => {
     fireEvent.click(input);
 
     // Calendar should be open
-    expect(screen.getByText(/2024|2025/)).toBeInTheDocument();
+    expect(screen.getByText(/20\d{2}/)).toBeInTheDocument();
 
     const outside = screen.getByTestId("outside");
     fireEvent.mouseDown(outside);
 
     await waitFor(() => {
-      expect(screen.queryByText(/2024|2025/)).not.toBeInTheDocument();
+      expect(screen.queryByText(/20\d{2}/)).not.toBeInTheDocument();
     });
   });
 
@@ -63,8 +63,7 @@ describe("CustomDatePicker", () => {
     const nextButton = screen.getByLabelText("Próximo mês");
     fireEvent.click(nextButton);
 
-    // Should show different month/year
-    expect(screen.getByText(/2024|2025/)).toBeInTheDocument();
+    expect(screen.getByText(/20\d{2}/)).toBeInTheDocument();
   });
 
   it("selects date and calls onChange", () => {
