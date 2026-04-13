@@ -240,6 +240,12 @@ const sweetsRaw: Omit<Sweet, "id">[] = [
     image: getImageUrl("/images/sweets/cone-melao.jpg"),
   },
   {
+    name: "Mini Pavlova",
+    price: 5.8,
+    category: "doces_finos_luxo",
+    image: getImageUrl("/images/sweets/mini-pavlova.jpg"),
+  },
+  {
     name: "Damasco Recheado",
     price: 4.8,
     category: "doces_finos_luxo",
