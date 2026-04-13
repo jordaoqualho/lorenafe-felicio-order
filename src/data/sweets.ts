@@ -38,7 +38,7 @@ const sweetsRaw: Omit<Sweet, "id">[] = [
     name: "Brigadeiro",
     price: 3.2,
     category: "brigadeiros_tradicionais",
-    image: getImageUrl("/images/sweets/brigadeiro.jpeg"),
+    image: getImageUrl("/images/sweets/brigadeiro.jpg"),
   },
   {
     name: "Brigadeiro de Morango",
@@ -46,11 +46,12 @@ const sweetsRaw: Omit<Sweet, "id">[] = [
     category: "brigadeiros_tradicionais",
     image: getImageUrl("/images/sweets/brigadeiro-morango.jpeg"),
   },
-  { name: "Brigadeiro de Café", price: 3.2, category: "brigadeiros_tradicionais" },
+  { name: "Brigadeiro de Café", price: 3.2, category: "brigadeiros_tradicionais", image: getImageUrl("/images/sweets/brigadeiro-café.jpg") },
   {
     name: "Cajuzinho",
     price: 3.0,
     category: "brigadeiros_tradicionais",
+    image: getImageUrl("/images/sweets/cajuzinho.jpeg"),
   },
   {
     name: "Casadinho",
@@ -62,13 +63,13 @@ const sweetsRaw: Omit<Sweet, "id">[] = [
     name: "Brigadeiro de Churros",
     price: 3.0,
     category: "brigadeiros_tradicionais",
-    image: getImageUrl("/images/sweets/brigadeiro-churros.jpg"),
+    image: getImageUrl("/images/sweets/churros.jpg"),
   },
   {
     name: "Coco queimado",
     price: 3.0,
     category: "brigadeiros_tradicionais",
-    // image: "/images/sweets/coco-queimado.jpeg",
+    image: getImageUrl("/images/sweets/coco-queimado.png"),
   },
   {
     name: "Flor de Beijinho",
@@ -80,7 +81,7 @@ const sweetsRaw: Omit<Sweet, "id">[] = [
     name: "Flor napolitana",
     price: 3.5,
     category: "brigadeiros_tradicionais",
-    image: getImageUrl("/images/sweets/flor-napolitana.jpeg"),
+    image: getImageUrl("/images/sweets/napolitana.jpeg"),
   },
   { name: "Brigadeiro de Ninho", price: 3.0, category: "brigadeiros_tradicionais" },
 
@@ -309,7 +310,7 @@ const sweetsRaw: Omit<Sweet, "id">[] = [
     name: "Ouriço de Coco",
     price: 3.5,
     category: "doces_finos_luxo",
-    image: getImageUrl("/images/sweets/ouriço-coco.jpeg"),
+    image: getImageUrl("/images/sweets/ouriço-coco.jpg"),
   },
   { 
     name: "Raffaello", 
@@ -334,7 +335,7 @@ const sweetsRaw: Omit<Sweet, "id">[] = [
     name: "Trufa de Maracujá de Coração",
     price: 4.2,
     category: "trufas_bombons",
-    image: getImageUrl("/images/sweets/trufa-maracuja.jpeg"),
+    image: getImageUrl("/images/sweets/trufa-maracujá.jpeg"),
   },
   {
     name: "Trufa de Pistache",
@@ -346,6 +347,7 @@ const sweetsRaw: Omit<Sweet, "id">[] = [
     name: "Trufa de Limão",
     price: 4.5,
     category: "trufas_bombons",
+    image: getImageUrl("/images/sweets/trufa-limão.jpeg"),
   },
   {
     name: "Trufa Tradicional",
@@ -388,7 +390,7 @@ const sweetsRaw: Omit<Sweet, "id">[] = [
     name: "Tortinha Banoffe",
     price: 4.5,
     category: "doces_finos_decorativos",
-    image: getImageUrl("/images/sweets/tortinha-banoffe.jpg"),
+    image: getImageUrl("/images/sweets/tortinha-banoffe.jpeg"),
   },
   {
     name: "Tortinha de Limão",
